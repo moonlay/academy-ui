@@ -1,4 +1,57 @@
 <template>
-  <require from="./data-form"></require>
-  <data-form title="view assignment" read-only="true"></data-form>
+<h1>Detail</h1>
+<hr/>
+<table class="table table-bordered table-hover">
+<center>
+<tr style="border:hidden">
+  <th> Nama : </th>
+  <td>${data.name}</td>
+</tr>
+<tr style="border:hidden">
+  <th>Code : </th>
+  <td>${data.code}</td>
+</tr>
+<tr style="border:hidden">
+  <th>Type : </th>
+  <td>${data.type}</td>
+</tr>
+<tr style="border:hidden">
+  <th>Project : </th>
+  <td>${data.project}</td>
+</tr>
+<tr style="border:hidden">
+  <th>Description : </th>
+  <td>${data.description}</td>
+</tr>
+<tr style="border:hidden">
+  <th>Date : </th>
+  <td>${data.date}</td>
+</tr>
+<tr style="border:hidden">
+  <th>Budget : </th>
+  <td>${data.budget} Jam</td>
+</tr>
+<tr style="border:hidden">
+  <th>Open : </th>
+  <td>${data.open}</td>
+</tr>
+<tr style="border:hidden">
+  <th>Actual : </th>
+  <td>${data.actual}</td>
+</tr>
+<tr style="border:hidden">
+  <th>Renmark : </th>
+  <td>${data.renmark}</td>
+</tr>
+<tr style="border:hidden">
+  <th>Status : </th>
+  <td>${data.status}</td>
+</tr>
+<!--<tr>
+  <th>Account ID : </th>
+  <td>${data2.accountId}</td>
+</tr>-->
+</center>
+</table>
+
 </template>

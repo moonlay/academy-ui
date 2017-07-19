@@ -1,3 +1,10 @@
+
+
+
+
+
+
+
 import { inject } from "aurelia-framework";
 import { Router } from 'aurelia-router';
 import { RestService } from "../../lib/rest-service";
@@ -7,34 +14,20 @@ import moment from "moment";
 @inject(Router)
 export class List {
   constructor(router) {
-    
-    this.timeService = new RestService("core", "timerecords");
-    this.taskService = new RestService("core", "tasks");
+    // this.service = new RestService("core", "tasks");
+    this.service = new RestService("core", "timerecords");
     this.router = router;
   }
   __dateFormatter = function (value, row, index) {
     return value ? moment(value).format("DD-MMM-YYYY") : "-";
   }
   columns = [
-    "code",
+    "id",
+    "assignment id",
     "name",
-    {
-      field: "date", title: "date",
-      formatter: this.__dateFormatter
-    },
-    "budget",
-    "actual",
-    {
-      field: "open", title: "open",
-      formatter: this.__dateFormatter
-    },
-    {
-      field: "close", title: "close",
-      formatter: this.__dateFormatter
-    },
-    "remark",
-    "status",
+
     "duration"];
+    
   contextMenu = ["Detail"];
 
   loader = (info) => {
@@ -47,8 +40,7 @@ export class List {
 
     var loopbackFilter = createLoopbackFilterObject(info, fields)
     return Promise
-      .all([this.taskService.count(loopbackFilter.filter), this.taskService.list(loopbackFilter)] 
-    && [this.timeService.count(loopbackFilter.filter), this.timeService.list(loopbackFilter)])
+      .all([this.service.count(loopbackFilter.filter), this.service.list(loopbackFilter)])
       .then(results => {
         var count = results[0].count;
         var data = results[1];
@@ -63,17 +55,13 @@ export class List {
     this.router.navigateToRoute('view', { id: id });
   }
 
-  // create() {
-  //   this.router.navigateToRoute('create');
-  // }
-
   __contextMenuCallback(event) {
     var arg = event.detail;
     var data = arg.data;
     switch (arg.name) {
       case "Detail":
         this.__view(data.id);
-        break;
+       break;
     }
 
     

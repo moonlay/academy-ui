@@ -1,13 +1,24 @@
 <template>
-  <h1 class="page-header">Assignments</h1>
-  <au-table 
-    data.bind="loader" 
-    columns.bind="columns"
-    sortable.bind="true" 
-    page-size="25"
-    context.bind="contextMenu" 
-    context-click.delegate="__contextMenuCallback($event)">
+  <h1 class="page-header">Achivement</h1>
+   <table class="table table-bordered table-hover">
     
-    <button slot="toolbar" class="btn btn-success" click.delegate="create()">Create new Assignment</button>
-  </au-table>
+  <tr>
+      <th><center> Id </center></th>
+      <th> <center>Name </center></th>
+      <th> <center> Persentasi <br/>(%)</center></th>
+      <th> <center>Action</center></th>
+      
+  </tr>
+    <tr  context.bind="contextMenu" 
+    context-click.delegate="__contextMenuCallback($event)"
+    repeat.for="item of data" >
+    <td>${item.iterationId}</td>
+    <td>${item.name}</td>
+    <td>${item.persentasi}</td>
+  
+    <td>
+    <button class="btn btn-success" click.delegate="__view(item.id)">Lihat Detail</button>
+    </td>
+  </tr>
+</table> 
 </template>

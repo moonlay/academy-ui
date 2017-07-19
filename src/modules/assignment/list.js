@@ -6,55 +6,45 @@ import moment from "moment";
 
 @inject(Router)
 export class List {
+
   constructor(router) {
     this.service = new RestService("core", "assignments");
+    // this.service2 = new RestService("core", "timerecord");
+    
     this.router = router;
+    this.getData();
+    
+    
+  }
+  
+async bind(context) {
+    this.context = context;
+    this.data = this.context.data;
+    this.error = this.context.error;
+
+    //this.cancelCallback = this.context.cancelCallback;
+    this.editCallback = this.context.editCallback;
+    // this.selectedBacklog = await this.backlogService.get(backlogId, { filter: { include: "project" } });
   }
 
-  columns = ["code", "name", {
-    field: "date", title: "date",
-    formatter: function (value, row, index) {
-      return value ? moment(value).format("DD-MMM-YYYY") : "-";
+getData(){
+  this.service.get().then(results => {
+    this.data = results;
+    var persentasiService = [];
+    for(var item of this.data){
+      var p = new RestService("core", `assignments/${item.id}/persentasi`);
+      persentasiService.push(p.get());
     }
-  }, "remark"];
-  contextMenu = ["Detail"];
-
-  loader = (info) => {
-    var fields = this.columns.map(col => {
-      if (typeof col === "string")
-        return col;
-      else if (typeof col === "object" && col.field)
-        return col.field;
+    Promise.all(persentasiService).then(result => {
+      for(var index in this.data) {
+      console.log("result");        
+        console.log(result[index].Persentasi);        
+        this.data[index].persentasi = result[index].Persentasi;
+      }
+      console.log(this.data);
     })
-
-    var loopbackFilter = createLoopbackFilterObject(info, fields)
-    return Promise
-      .all([this.service.count(loopbackFilter.filter), this.service.list(loopbackFilter)])
-      .then(results => {
-        var count = results[0].count;
-        var data = results[1];
-        return {
-          total: count,
-          data: data
-        };
-      });
-  };
-
-  __view(id) {
-    this.router.navigateToRoute('view', { id: id });
-  }
-
-  create() {
-    this.router.navigateToRoute('create');
-  }
-
-  __contextMenuCallback(event) {
-    var arg = event.detail;
-    var data = arg.data;
-    switch (arg.name) {
-      case "Detail":
-        this.__view(data.id);
-        break;
-    }
-  }
+  })
 }
+
+}
+

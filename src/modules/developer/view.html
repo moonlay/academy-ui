@@ -1,0 +1,12 @@
+<template>
+  <require from="./data"></require>
+  <data title="view task" read-only="true"></data>
+<center>
+  <div >
+        <input type="text" value.bind="data.duration" readonly/>
+        <button id ="button" if.bind="data.isStart" click.delegate="pause(item)">Pause</button>
+        <button id ="button" if.bind="!data.isStart" click.delegate="start(item)">Start</button>
+        <button click.delegate="stop(item)">Stop 
+        </button> 
+  </div>
+</template>

@@ -1,14 +1,20 @@
+
+
+
+
+
+
+
+
+
 <template>
-  <h1 class="page-header">Tasks</h1>
+<h1 class="page-header">Time Record</h1>
   <au-table 
     data.bind="loader" 
     columns.bind="columns"
     sortable.bind="true" 
-    page-size="25"
+    page-size="20"
     context.bind="contextMenu" 
     context-click.delegate="__contextMenuCallback($event)">
-    <!--<button slot="toolbar" class="btn btn-success" click.delegate="create()">Create new Task</button>-->
-  
   </au-table>
-  
-</template>
+  </template>
