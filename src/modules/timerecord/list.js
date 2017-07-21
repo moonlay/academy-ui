@@ -23,7 +23,7 @@ export class List {
   }
   columns = [
     "id",
-    "assignment id",
+    "assignmentId",
     "name",
 
     "duration"];

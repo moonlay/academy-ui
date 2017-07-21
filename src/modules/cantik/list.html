@@ -1,0 +1,17 @@
+<template>
+  <h1 class="page-header">Dashboard</h1>
+  <center>
+  <div repeat.for="item of data">
+        ${item.id} 
+        <input type="text" value.bind="item.elapsed" style="text-align:center" readonly />
+        <button id ="button" if.bind="item.isStart" click.delegate="pause(item)">Pause</button>
+        <button id ="button" if.bind="!item.isStart" click.delegate="start(item)">Start</button>
+        <button if.bind="item.isStop" click.delegate="stop(item)">Stop 
+        </button>
+        <button click.delegate="__view(item.id)">Lihat Detail</button>
+      
+        <hr/>
+    </div>
+
+  </center>
+</template>

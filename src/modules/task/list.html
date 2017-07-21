@@ -1,6 +1,6 @@
 <template>
   <h1 class="page-header">Tasks</h1>
-  <au-table 
+  <!-- <au-table 
     data.bind="loader" 
     columns.bind="columns"
     sortable.bind="true" 
@@ -9,6 +9,34 @@
     context-click.delegate="__contextMenuCallback($event)">
     <!--<button slot="toolbar" class="btn btn-success" click.delegate="create()">Create new Task</button>-->
   
-  </au-table>
+  </au-table> -->
   
+  <table class="table table-bordered table-hover">
+    <tr>
+      <th><center>code</center></th>
+      <th><center>name</center></th>
+      <th><center>date</center></th>
+      <th><center>budget</center></th>
+      <th><center>Actual</center></th>
+      <th><center>open</center></th>
+      <th><center>close</center></th>
+      <th><center>remark</center></th>
+      <th><center>status</center></th>
+      <!-- <th><center>duration</center></th> -->
+    </tr>
+    <tr context.bind="contextMenu" 
+    context-click.delegate="__contextMenuCallback($event)" 
+    repeat.for="item of data">
+      <td>${item.code}</td>
+      <td>${item.name}</td>
+      <td>${item.date}</td>
+      <td>${item.budget}</td>
+      <td>${item.actual}</td>
+      <td>${item.open}</td>
+      <td>${item.close}</td>
+      <td>${item.remark}</td>
+      <td>${item.status}</td>
+      <!-- <td>${item.code}</td> -->
+    </tr>
+  </table>
 </template>

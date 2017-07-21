@@ -23,7 +23,7 @@ async bind(context) {
     this.error = this.context.error;
 
     //this.cancelCallback = this.context.cancelCallback;
-    this.editCallback = this.context.editCallback;
+    // this.editCallback = this.context.editCallback;
     // this.selectedBacklog = await this.backlogService.get(backlogId, { filter: { include: "project" } });
   }
 
