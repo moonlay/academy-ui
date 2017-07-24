@@ -19,13 +19,13 @@
                                             <tbody>
                                                 <tr style="background-color:aqua">
                                                     <th>id</th>
-                                                    <th>Assignment Id</th>
+                                                    <th>Date</th>
                                                     <th>Name</th>
                                                     <th>Duration</th>
                                                 </tr>
                                                 <tr repeat.for="items of item.timerecords">
                                                     <td>${items.id}</td>
-                                                    <td>${items.assignmentId}</td>
+                                                    <td>${items.date}</td>
                                                     <td>${items.name}</td>
                                                     <td>${items.duration}</td>
                                                 </tr>
@@ -52,7 +52,7 @@
                                                     <td>${item.id}</td>
                                                     <td>${item.elapsed}</td>
                                                     <td>${item.budget} Jam</td>
-                                                    <td repeat.for="item of data">${item.persentasi}</td>
+                                                    <td>${item.persentasi}</td>
                                                 </tr>
                                             </tbody>
                                         </table>

@@ -24,8 +24,15 @@ export class List {
   columns = [
     "id",
     "assignmentId",
+    "projectId",    
+    {field: "date", title: "date",
+      formatter: function (value, row, index) {
+        return value ? moment(value).format("DD-MMM-YYYY") : "-";
+      }
+    },
     "name",
-
+    "description",
+    "remark",
     "duration"];
     
   contextMenu = ["Detail"];

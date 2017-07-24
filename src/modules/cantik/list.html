@@ -1,17 +1,84 @@
 <template>
   <h1 class="page-header">Dashboard</h1>
-  <center>
-  <div repeat.for="item of data">
-        ${item.id} 
-        <input type="text" value.bind="item.elapsed" style="text-align:center" readonly />
-        <button id ="button" if.bind="item.isStart" click.delegate="pause(item)">Pause</button>
+  <!-- <center>
+  
+
+  </center> -->
+
+  <div class="col-lg-6">
+                    <div class="panel panel-default">
+                        <!-- <div class="panel-heading">
+                            Basic Table
+                        </div>
+                        <!-- /.panel-heading -->
+                        <!-- <div class="panel-body"> -->
+                            <!-- <div class="table-responsive"> -->
+                                   <table class="table table-bordered table hover">
+                                    <thead>
+                                        <tr>
+                                            <th>id assignment</th>
+                                            <th>elapsed</th>
+                                            <th>action</th>
+                                        </tr>
+                                    </thead>
+                                      
+
+    <tr  context.bind="contextMenu" 
+    context-click.delegate="__contextMenuCallback($event)"
+    repeat.for="item of data" >
+
+     <!-- <div repeat.for="item of data"> -->
+         <!-- ${item.id}<input type="text" value.bind="item.elapsed" style="text-align:center" readonly />  -->
+               
+    <td>${item.id}</td>
+    <td>${item.elapsed}</td>                             
+    <td>
+     <button id ="button" if.bind="item.isStart" click.delegate="pause(item)">Pause</button>
         <button id ="button" if.bind="!item.isStart" click.delegate="start(item)">Start</button>
         <button if.bind="item.isStop" click.delegate="stop(item)">Stop 
         </button>
-        <button click.delegate="__view(item.id)">Lihat Detail</button>
+      <button class="btn btn-success" click.delegate="__view(item.id)">Lihat Detail</button>
       
-        <hr/>
+  </td>
+  </tr>
+                                    
+                                    <!-- <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>Mark</td>
+                                            <td>Otto</td>
+                                            <td>@mdo</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td>Jacob</td>
+                                            <td>Thornton</td>
+                                            <td>@fat</td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td>Larry</td>
+                                            <td>the Bird</td>
+                                            <td>@twitter</td>
+                                        </tr>
+                                    </tbody> -->
+
+        
     </div>
 
-  </center>
+                                </table>
+                            </div>
+                             <!-- /.table-responsive -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-6  -->
+            </div>
+
+
+
+
+
 </template>

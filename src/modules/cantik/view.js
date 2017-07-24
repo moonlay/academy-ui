@@ -23,6 +23,10 @@ export class View {
     var id = params.id;
     this.item = await this.service.get(id, { filter: { include: "timerecords"} });
     
+    var p = new RestService("core", `assignments/${this.item.id}/persentasi`);
+    p.get().then(results => {
+      this.item.persentasi = results.Persentasi;
+    })
 }
   cancelCallback() {
     this.router.navigateToRoute('list');
