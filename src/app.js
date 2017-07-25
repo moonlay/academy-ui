@@ -11,7 +11,8 @@ export class App {
       { route: 'backlogs',  name: 'backlogs', moduleId: './modules/backlog/index', nav: true, title: 'Backlog' },
       { route: 'iterations',  name: 'iterations', moduleId: './modules/iteration/index', nav: true, title: 'Iteration' },
       { route: 'assignments',  name: 'assignments', moduleId: './modules/assignment/index', nav: true, title: 'Assignment' },
-      { route: 'tasks',  name: 'tasks', moduleId: './modules/task/index', nav: true, title: 'Task' }
+      { route: 'tasks',  name: 'tasks', moduleId: './modules/task/index', nav: true, title: 'Task' },
+      { route: 'dashboard',  name: 'dashboard', moduleId: './modules/dashboard/index', nav: true, title: 'Dashboard' }
     ]);
 
     this.router = router;

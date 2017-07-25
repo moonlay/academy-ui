@@ -1,0 +1,26 @@
+<template>
+    <ai-dialog style="width:500px;">
+        <ai-dialog-header>${isEdit ? "edit backlog" : "add new backlog"}</ai-dialog-header>
+
+        <ai-dialog-body>
+            <form class="form-horizontal">
+                <au-textbox label="code" value.bind="data.code" error.bind="error.code" read-only.bind="readOnly || isEdit" if.bind="isEdit"></au-textbox>
+                <au-textbox label="name" value.bind="data.name" error.bind="error.name" read-only.bind="readOnly"></au-textbox>
+                <au-multiline label="description" value.bind="data.description" error.bind="error.description" read-only.bind="readOnly"></au-multiline>
+                <au-datepicker label="date" value.bind="data.date" error.bind="error.date" read-only.bind="readOnly"></au-datepicker>
+                <au-multiline label="remark" value.bind="data.remark" error.bind="error.remark" read-only.bind="readOnly"></au-multiline>
+                <au-dropdown label="status" value.bind="data.status" items.bind="backlogStatusOptions" read-only.bind="readOnly"></au-dropdown>
+            </form>
+            <!--<form class="form-horizontal">
+                <textbox label="Name" value.bind="data.name"></textbox>
+                <multiline label="Description" value.bind="data.description"></multiline>
+                <auto-suggest label="Activity" value.bind="data.activity" options.bind="apiAutoSuggestOptions"></auto-suggest>
+            </form>-->
+        </ai-dialog-body>
+
+        <ai-dialog-footer>
+            <button class="btn btn-default" click.delegate="dialogController.cancel()">Cancel</button>
+            <button class="btn btn-success" click.delegate="saveCallback()">Ok</button>
+        </ai-dialog-footer>
+    </ai-dialog>
+</template>

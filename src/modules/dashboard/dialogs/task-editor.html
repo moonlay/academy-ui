@@ -1,0 +1,30 @@
+<template>
+    <ai-dialog style="width:600px;">
+        <ai-dialog-header>${isEdit ? "edit task" : "add new task"}</ai-dialog-header>
+
+        <ai-dialog-body>
+            <form class="form-horizontal">
+                <au-dropdown label="type" value.bind="data.type" items.bind="taskTypeOptions" read-only.bind="readOnly"></au-dropdown>
+                <au-textbox label="code" value.bind="data.code" error.bind="error.code" read-only.bind="readOnly || isEdit" if.bind="isEdit"></au-textbox>
+                <au-textbox label="name" value.bind="data.name" error.bind="error.name" read-only.bind="readOnly"></au-textbox>
+
+                <au-multiline label="description" value.bind="data.description" error.bind="error.description" read-only.bind="readOnly"></au-multiline>
+                <au-datepicker label="date" value.bind="data.date" error.bind="error.date" read-only.bind="readOnly"></au-datepicker>
+
+                <au-numeric label="budget" value.bind="data.budget" error.bind="error.budget" read-only.bind="readOnly"></au-numeric>
+                <au-numeric label="actual" value.bind="data.actual" error.bind="error.actual" read-only.bind="readOnly"></au-numeric>
+
+                <au-datepicker label="open" value.bind="data.open" error.bind="error.open" read-only.bind="readOnly"></au-datepicker>
+                <au-datepicker label="close" value.bind="data.close" error.bind="error.close" read-only.bind="readOnly"></au-datepicker>
+
+                <au-multiline label="remark" value.bind="data.remark" error.bind="error.remark" read-only.bind="readOnly"></au-multiline>
+                <au-dropdown label="status" value.bind="data.status" items.bind="taskStatusOptions" read-only.bind="readOnly"></au-dropdown>
+            </form>
+        </ai-dialog-body>
+
+        <ai-dialog-footer>
+            <button class="btn btn-default" click.delegate="dialogController.cancel()">Cancel</button>
+            <button class="btn btn-success" click.delegate="saveCallback()">Ok</button>
+        </ai-dialog-footer>
+    </ai-dialog>
+</template>
