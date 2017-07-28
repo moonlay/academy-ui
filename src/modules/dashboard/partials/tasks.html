@@ -1,0 +1,72 @@
+<template>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <i class="fa fa-plush"></i> Add new Task
+                    </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12" repeat.for="item of tasks">
+                                <div class="panel panel-primary">
+                                     <div class="panel-heading">
+                                        <i class="fa fa-bar-chart-o fa-fw"></i> ${item.name}
+                                        <div class="pull-right">
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-default btn-xs dropdown-toggle">
+                                                    <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div> 
+                                    <!-- /.panel-heading -->
+                                     
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-xs-12"> 
+                                                <div>
+                                                    <p>
+                                                        <span>Task Id : ${item.id}</span> <br/>
+                                                        <span>Date : ${item.date}</span> <br/>
+                                                        <span class="text-success">Status : ${item.status}</span> <br/>
+                                                        <span>type : ${item.type}</span> <br/>
+                                                        <span>Open : ${item.open}</span> <br/>
+                                                        <span>Close : ${item.close}</span> <br/>
+                                                        <span>Budget : ${item.budget}</span> <br/>
+                                                        <span>Actual : ${item.actual}</span> <br/>
+                                                    </p>
+                                                </div>
+                                            </div> 
+                                        </div>
+                                    </div>
+                                    <!-- /.panel-body -->
+                                    <button  click.trigger="__viewAssignments(item.id)" >
+                                        <div class="panel-footer">
+                                            <span class="pull-left">View Details</span>
+                                            <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                            <div class="clearfix"></div>
+                                        </div>
+                                        <!-- /.panel-footer -->
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- /.col-lg-4 -->  
+                        </div>
+                        <!--/ .row  -->
+                    </div>
+                    <!-- /.panel-body -->
+                </div>
+                <!-- /.panel .chat-panel -->
+            </div>
+                <!-- /.col-lg-4 -->
+            <div class="col-lg-4">
+                <compose view-model="./assignments"  model.bind="assignments"></compose>
+            </div>            
+        </div>
+            <!-- /.row -->
+
+    </div>    
+
+</template>

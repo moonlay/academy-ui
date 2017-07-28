@@ -19,9 +19,7 @@ export default {
     // auth: "https://academy-webapi-dev.herokuapp.com/api/",
 
     // core: "https://academy-webapi-dev.herokuapp.com/api/"
-     auth: "http://localhost:3000/api/",
-
+    auth: "http://localhost:3000/api/",
     core: "http://localhost:3000/api/"
-    //core: "http://127.0.0.1:3000/api/"
   }
 };

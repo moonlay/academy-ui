@@ -1,0 +1,25 @@
+<template>
+    <ai-dialog style="width:500px;">
+        <ai-dialog-header>${isEdit ? "edit iteration" : "add new iteration"}</ai-dialog-header>
+
+        <ai-dialog-body>
+            <form class="form-horizontal"> 
+                <au-textbox label="no" value.bind="data.no" error.bind="error.no" read-only.bind="readOnly || isEdit" if.bind="isEdit"></au-textbox>
+                <au-datepicker label="start" value.bind="data.start" error.bind="error.start" read-only.bind="readOnly"></au-datepicker>
+                <au-datepicker label="end" value.bind="data.end" error.bind="error.end" read-only.bind="readOnly"></au-datepicker>
+                <au-multiline label="remark" value.bind="data.remark" error.bind="error.remark" read-only.bind="readOnly"></au-multiline>
+                <au-dropdown label="status" value.bind="data.status" items.bind="iterationStatusOptions" read-only.bind="readOnly"></au-dropdown>
+            </form>
+            <!--<form class="form-horizontal">
+                <textbox label="Name" value.bind="data.name"></textbox>
+                <multiline label="Description" value.bind="data.description"></multiline>
+                <auto-suggest label="Activity" value.bind="data.activity" options.bind="apiAutoSuggestOptions"></auto-suggest>
+            </form>-->
+        </ai-dialog-body>
+
+        <ai-dialog-footer>
+            <button class="btn btn-default" click.delegate="dialogController.cancel()">Cancel</button>
+            <button class="btn btn-success" click.delegate="saveCallback()">Ok</button>
+        </ai-dialog-footer>
+    </ai-dialog>
+</template>

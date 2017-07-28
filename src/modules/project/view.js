@@ -34,6 +34,7 @@ export class View {
   deleteCallback() {
     this.dialog.prompt("Delete this data?", "You are about to delete a data")
       .then(response => {
+        console.log(response);
         if (response.ok) {
           this.service.delete(this.data.id)
             .then(result => {
