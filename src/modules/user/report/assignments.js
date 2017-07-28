@@ -22,8 +22,8 @@ constructor() {
   this.countAssignments;
   this.efficiencyCount =0 ;
   this.data=[];
-  this.loadStat = null;//showing the botton after table loaded
-  this.dateRangeStat =null;//date range input for filter table
+  this.loadStat = false;//showing the botton after table loaded
+  this.dateRangeStat =false;//date range input for filter table
 
   this.startDate;
   this.endDate;
@@ -35,6 +35,7 @@ async activate(model) {
     if(model.datas==null){
     }else{
       this.assignmentService = new RestService("core", `accounts/${model.datas.accountId}/assignments`);
+      
       this.assignmentsData = await this.assignmentService.get({filter: { include: "task",where:{status:'closed'} }});
       this.openAssignmentData = await this.assignmentService.get({filter: { include: "task",where:{status:'open'} }});
 
@@ -96,11 +97,16 @@ async activate(model) {
     return Promise
       .all([null,this.assignmentsData])
       .then(results => {
-        // this.countAssignments = results[0];
-        var data = results[1];
+
+        var data;
+
+        for(var r of results[1]){
+          if(r.status == "closed")
+          {
+            data = results[1];
+          } 
+        }
         console.log(data)
-        if(this.loadStat===null) this.loadStat = 1; // mengisi variabel agar memunculkan button
-        else this.loadStat = null;
         return {
           data: data
         };
@@ -126,10 +132,16 @@ async activate(model) {
     return Promise
       .all([null,this.openAssignmentData])
       .then(results => {
-        var data = results[1];
-        console.log(data)
-        if(this.loadStat===null) this.loadStat = 1; // mengisi variabel agar memunculkan button
-        else this.loadStat = null;
+        var data;
+
+        for(var r of results[1]){
+          if(r.status == "open")
+          {
+            data = results[1];
+          } 
+        }
+        if(this.loadStat==false) this.loadStat = 1; // mengisi variabel agar memunculkan button
+        else this.loadStat = true;
         return {
           data: data
         };
@@ -143,18 +155,20 @@ async activate(model) {
   }
 
   showDateRange(){
-    this.loadStat = null;
-    this.dateRangeStat = 1;
+    this.loadStat = false;
+    this.dateRangeStat = true;
   }
 
   async getAssignmentByDate(){
-      this.assignmentService = new RestService("core", `reports/account/${this.data.accountId}/${this.startDate}/to/${this.endDate}/assignments`);     
-      this.assignmentsData = await this.assignmentService.get();
+
+      this.assignmentsData = await this.assignmentService.get({filter: { include: "task",where:{and: [{status:'closed'},{date: {between:[this.startDate,this.endDate]}}]} }});
+      this.openAssignmentData = await this.assignmentService.get({filter: { include: "task",where:{status:'open'} }});
 
       this.efficiencyService = new RestService("core", `reports/account/${this.data.accountId}/${this.startDate}/to/${this.endDate}/efficiency`);     
       this.efficiencyData = await this.efficiencyService.get();
 
       this.assignmentTable.refresh();
+      this.openAssignmentTable.refresh();
 
   }
 }

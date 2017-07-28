@@ -29,7 +29,7 @@
                                                 </div>
                                                 <div class="col-xs-9 text-right">
                                                     <p style="font-size: 20px">Number of Assignments</p>
-                                                    <p style="font-size: 30px">${totalClosedAssignment}</p>
+                                                    <p style="font-size: 30px">${totalClosedAssignment + totalOpenAssignment}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -95,7 +95,7 @@
                                                 </div>
                                                 <div class="col-xs-9 text-right">
                                                     <p style="font-size: 20px">Efficiency Total</p>
-                                                    <p style="font-size: 30px">${totalEfficiency} %</p>
+                                                    <p if.bind="totalEfficiency" style="font-size: 30px">${totalEfficiency} %</p>
                                                 </div>
                                             </div>
                                         </div>
