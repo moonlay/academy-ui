@@ -12,7 +12,6 @@ export class App {
       { route: 'iterations',  name: 'iterations', moduleId: './modules/iteration/index', nav: true, title: 'Iteration' },
       { route: 'assignments',  name: 'assignments', moduleId: './modules/assignment/index', nav: true, title: 'Assignment' },
       { route: 'tasks',  name: 'tasks', moduleId: './modules/task/index', nav: true, title: 'Task' },
-
       { route: 'dashboard',  name: 'dashboard', moduleId: './modules/dashboard/index', nav: true, title: 'Dashboard' }
     ]);
 
