@@ -1,24 +1,25 @@
 <template>
   <h1 class="page-header">Assignment</h1>
-   <table class="table table-bordered table-hover">
+<table class="table table-bordered table-hover">
     
   <tr>
-      <th><center>Id</center></th>
-      <th> <center>Date</center></th>
-      <th> <center>Persentasi<br/>(%)</center></th>
+      <th><center> Id </center></th>
+      <th> <center>Name </center></th>
+      <th> <center> Persentasi <br/>(%)</center></th>
       <th> <center>Action</center></th>
       
   </tr>
-    <tr  context.bind="contextMenu" 
+  <tr  context.bind="contextMenu" 
     context-click.delegate="__contextMenuCallback($event)"
-    repeat.for="item of data" >
+  repeat.for="item of data" >
     <td>${item.id}</td>
-    <td>${item.date}</td>
-    <td>${item.persentasi}</td>
+    <td>${item.name}</td>
+    <td>${(((item.duration/(item.budget*3600))*100).toFixed(2))}</td>
+  
   
     <td>
     <button class="btn btn-success" click.delegate="__view(item.id)">Lihat Detail</button>
     </td>
   </tr>
-</table> 
+</table>
 </template>

@@ -1,3 +1,10 @@
+
+
+
+
+
+
+
 import { inject } from "aurelia-framework";
 import { Router } from 'aurelia-router';
 import { RestService } from "../../lib/rest-service";
@@ -7,22 +14,24 @@ import moment from "moment";
 @inject(Router)
 export class List {
   constructor(router) {
-    this.service = new RestService("core", "timerecords");
+    this.service = new RestService("core", "tasks");
     this.router = router;
   }
   __dateFormatter = function (value, row, index) {
     return value ? moment(value).format("DD-MMM-YYYY") : "-";
   }
   columns = [
-    "id",
+    "code",
     "name",
-    "description",
-    "assignmentId",
-    "projectId",
-    "date",
-    "remark",
+    {
+      field: "", title: "start",
+      formatter: this.__dateFormatter
+    },
+    {
+      field: "", title: "stop",
+      formatter: this.__dateFormatter
+    },
     "duration"];
-    
   contextMenu = ["Detail"];
 
   loader = (info) => {
@@ -37,7 +46,6 @@ export class List {
     return Promise
       .all([this.service.count(loopbackFilter.filter), this.service.list(loopbackFilter)])
       .then(results => {
-        debugger;
         var count = results[0].count;
         var data = results[1];
         return {

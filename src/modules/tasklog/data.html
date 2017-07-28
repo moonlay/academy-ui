@@ -1,6 +1,13 @@
+
+
+
+
+
+
+
+
 <template>
-  
-  <au-input-form title.bind="title" with.bind="context">
+<au-input-form title.bind="title" with.bind="context">
 
     <au-autocomplete value.bind="selectedBacklog" label="backlog" read-only.bind="readOnly || isEdit" error.bind="error.backlogId"
       loader.bind="backlogLoader" key="id" text="name"></au-autocomplete>
@@ -23,8 +30,5 @@
 
     <au-multiline label="remark" value.bind="data.remark" error.bind="error.remark" read-only.bind="readOnly"></au-multiline>
     <au-dropdown label="status" value.bind="data.status" items.bind="taskStatusOptions" read-only.bind="readOnly"></au-dropdown>
-  
-  
   </au-input-form>
-
-</template>
+  </template>

@@ -8,43 +8,46 @@ import moment from "moment";
 export class List {
 
   constructor(router) {
-    this.service = new RestService("core", "assignments");
-    // this.service2 = new RestService("core", "timerecord");
-    
+    this.service = new RestService("core", "tasks");
     this.router = router;
     this.getData();
-    
     
   }
   
 async bind(context) {
     this.context = context;
     this.data = this.context.data;
-    this.error = this.context.error;
 
-    //this.cancelCallback = this.context.cancelCallback;
-    // this.editCallback = this.context.editCallback;
-    // this.selectedBacklog = await this.backlogService.get(backlogId, { filter: { include: "project" } });
   }
 
 getData(){
-  this.service.get().then(results => {
-    this.data = results;
-    var persentasiService = [];
-    for(var item of this.data){
-      var p = new RestService("core", `assignments/${item.id}/persentasi`);
-      persentasiService.push(p.get());
-    }
-    Promise.all(persentasiService).then(result => {
-      for(var index in this.data) {
-      console.log("result");        
-        console.log(result[index].Persentasi);        
-        this.data[index].persentasi = result[index].Persentasi;
-      }
+    this.service.get().then(results => {
+      this.data = results;
       console.log(this.data);
+      var getTasks;
+      
+      for(var item of this.data){
+        var tasksService = new RestService("core", `/tasks/${item.id}/tasks`);
+        getTasks.push(tasksService.get());
+    }
     })
-  })
-}
+  }
+
+    async activate(params){
+        var id = params.id;
+        this.persen = new RestService ("core", `tasks/${item.id}/persentasi/`)
+        //this.accountEfficiency = new RestService ("core", `accounts/${id}/count/efficiency`)
+        this.efficiency = await this.persen.get();
+        }
+
+
+    __view(id) {
+    this.router.navigateToRoute('view', { id: id });
+  }
+  
+  create() {
+    this.router.navigateToRoute('create');
+  }
 
 }
 

@@ -21,6 +21,7 @@ export class View {
   async activate(params) {
     var id = params.id;
     this.data = await this.service.get(id, { filter: { include: "profile" } });
+    console.log(this.data.profile.firstname);
   }
 
   cancelCallback() {

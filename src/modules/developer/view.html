@@ -1,12 +1,71 @@
 <template>
-  <require from="./data"></require>
-  <data title="view task" read-only="true"></data>
-<center>
-  <div >
-        <input type="text" value.bind="data.duration" readonly/>
-        <button id ="button" if.bind="data.isStart" click.delegate="pause(item)">Pause</button>
-        <button id ="button" if.bind="!data.isStart" click.delegate="start(item)">Start</button>
-        <button click.delegate="stop(item)">Stop 
-        </button> 
-  </div>
+<br>
+<center> 
+
+<br>
+
+<div>
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#pribadi" data-toggle="tab" aria-expanded="true"><b>Time Record</b></a></li>
+                        <li class=""><a href="#akademik" data-toggle="tab" aria-expanded="false"><b>Persentasi</b></a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="pribadi">
+                            <form class="form-horizontal">
+                                <div class="box box-solid ">
+                                    <div id="grid-system2-body" class="box-body">
+                                        <table class="table table-bordered table-hover">
+                                            <tbody>
+                                                <tr style="background-color:aqua">
+                                                    <th>id</th>
+                                                    <th>Assignment Id</th>
+                                                    <th>Date</th>
+                                                    <th>Name</th>
+                                                    <th>Duration</th>
+                                                </tr>
+                                                <tr repeat.for="items of item.timerecords">
+                                                    <td>${items.id}</td>
+                                                    <td>${items.assignmentId}</td>
+                                                    <td>${items.date}</td>
+                                                    <td>${items.name}</td>
+                                                    <td>${items.waktu}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </form>
+                        </div><!-- /.tab-pane -->
+                        <div class="tab-pane" id="akademik">
+                            <form class="form-horizontal">
+
+                                <div class="box box-solid ">
+                                    <div id="grid-system2-body" class="box-body">
+                                        <table class="table table-bordered table-hover">
+                                            <tbody>
+                                                <tr style="background-color: cadetblue">
+                                                    <th>Assignment Id</th>
+                                                    <th>Elapsed</th>
+                                                    <th>Budget</th>
+                                                    <th>Persentasi</th>
+                                                </tr>
+                                                <tr>
+                                                    <td>${item.id}</td>
+                                                    <td>${item.elapsed}</td>
+                                                    <td>${item.budget} Jam</td>
+                                                    <td>${item.persentasi}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </form> 
+                        </div><!-- /.tab-pane -->
+                    </div><!-- /.tab-content -->
+                </div><!-- /.nav-tabs-custom -->
+            </div><!-- /.col -->
+</center>
+        <button click.delegate="cancelCallback()"> Back </button> 
+
 </template>

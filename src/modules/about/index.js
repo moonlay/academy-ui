@@ -1,103 +1,11 @@
-import { inject } from "aurelia-framework";
-import { Router } from 'aurelia-router';
-import { RestService } from "../../lib/rest-service";
-import createLoopbackFilterObject from "../../lib/loopback-filter-factory";
-import moment from "moment";
-import { bindable, containerless, computedFrom } from "aurelia-framework";
-
-@inject(Router)
-export class List {
-  totalSeconds=0;
-  
-    @bindable selectedProject;// required. for initial variable reference.
-  constructor(router) {
-    this.service = new RestService("core", "tasks");
-    this.service2 = new RestService("core", "timerecord");
-    this.router = router;
-    this.getData();
-    var currentItem;
-  }
-
-start(item){
-
-  var index = 0;
-  for(var i in this.data) {
-    var isHas = false;
-    if(item.id == this.data[i].id){
-      isHas = true;
+export class Index {
+    configureRouter(config, router){
+        config.map([
+            { route: '/', name: 'list', moduleId: './list', nav: true, title: 'Dashboard List' },
+            { route: '/project-chart', name: 'project-chart', moduleId: './project-chart', nav: true, title: 'Project Chart' },
+            { route: '/view/:id', name: 'view', moduleId: './view', nav: false, title: 'View Project' }
+        ])
+        this.router = router;
     }
-    if(isHas) {
-      index = i;
-      break;
-    }
-  }
-  
-  if(this.currentItem)
-    this.currentItem.isStart = false;
-    item.isStart = true;
-    item.isStop = true;
-    this.currentItem = item;
-   
-    var self = this;
-    function pad (val){
-            return val > 9 ? val : "0" + val;
-        }
-            this.interval = setInterval(function (){
-            self.totalSeconds +=1;
-            $("#sec").text(pad((self.totalSeconds)));
-     },1000);
-}
-
-stop(item){
-  document.getElementById("button").hidden = true
-     clearInterval(this.interval);
-        delete this.interval;  
-
-}
-
-pause(item){
-  item.isStart =false;
-     clearInterval(this.interval);
-        delete this.interval;  
-
-}
-
-async bind(context) {
-    this.context = context;
-    this.data = this.context.data;
-  }
-
-getData(){
-    this.service.get().then(results => {
-      this.data = results;
-      console.log(this.data);
-      var getTasks;
-      var getTime;
-      for(var item of this.data){
-        item.isStart = false;
-        var tasksService = new RestService("core", `/tasks/${item.id}/tasks`);
-        var timeService = new RestService("core", `/timerecord/${item.id}/timerecord`);
-        getTime.push(timeService.get());
-        getTasks.push(tasksService.get());
-    this.tampan=data.code;
-  
-  }
-    })
-  }
-
-loader = (info) => {
-    var fields = this.columns.map(col => {
-      if (typeof col === "string")
-        return col;
-      else if (typeof col === "object" && col.field)
-        return col.field;
-    })
-
-    var loopbackFilter = createLoopbackFilterObject(info, fields)
-  };
-
-  __view(id) {
-    this.router.navigateToRoute('view', { id: id });
-  }
 
 }

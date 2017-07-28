@@ -1,10 +1,12 @@
-export class index {
+export class Index {
+    configureRouter(config, router) {
+        config.map([
+            { route: ['', 'list'], moduleId: './list', name: 'list', nav: true, title: 'List' },
+            { route: 'view/:id', moduleId: './view', name: 'view', nav: false, title: 'View:Assignments' },
+            { route: 'edit/:id', moduleId: './edit', name: 'edit', nav: false, title: 'Edit:Assignments' },
+            { route: 'create', moduleId: './create', name: 'create', nav: false, title: 'Create:Assignments' }
+        ]);
 
-  configureRouter(config, router) {
-    config.map([ 
-      { route: '/',             name: 'list',         moduleId: './list',         nav: true,        title: 'Project List' },
-      { route: '/view/:id',     name: 'view',         moduleId: './view',         nav: false,       title: 'View Project' } ]);
-
-    this.router = router;
-  }
+        this.router = router;
+    }
 }
