@@ -11,11 +11,7 @@ import { Assignments } from './assignments'
 @inject(Router, Dialog)
 export class reports{
 
-    @bindable date_start;
-    @bindable date_end;
-    
-    @bindable assignmentEfficiency;
-    @bindable totalWorkTime;
+    @bindable totalProjects;
 
     @bindable totalClosedAssignment;
     @bindable totalOpenAssignment;
@@ -33,6 +29,7 @@ export class reports{
         this.totalClosedAssignment = 0;
         this.totalOpenAssignment = 0;
         this.totalWorkTime = 0;
+        this.totalProjects = 0;
 
         this.accountId;
         this.dataku = {};
@@ -48,6 +45,7 @@ export class reports{
         this.countTotalEfficiency();
         this.countClosedAssignment();
         this.countOpenAssignment();
+        this.countProjects();
          
     }  
 
@@ -76,7 +74,18 @@ export class reports{
         this.totalOpenAssignment = await this.countOpen.get();
     }
 
+    async countProjects(){
+        this.countProject = new RestService("core", `reports/account/${this.accountId}/project/count`)
+        this.totalProjects = await this.countProject.get();
+    }
+
   showAssignments() {
+    var data = {"accountId": this.accountId}
+    this.dataku = {datas: data};
+    console.log(this.dataku);
+  }
+
+  showpProjects() {
     var data = {"accountId": this.accountId}
     this.dataku = {datas: data};
     console.log(this.dataku);

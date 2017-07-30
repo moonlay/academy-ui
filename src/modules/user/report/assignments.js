@@ -34,14 +34,21 @@ async activate(model) {
     this.data = model.datas;
     if(model.datas==null){
     }else{
-      this.assignmentService = new RestService("core", `accounts/${model.datas.accountId}/assignments`);
-      
-      this.assignmentsData = await this.assignmentService.get({filter: { include: "task",where:{status:'closed'} }});
-      this.openAssignmentData = await this.assignmentService.get({filter: { include: "task",where:{status:'open'} }});
+      this.assignmentService = new RestService("core", `accounts/${model.datas.accountId}/assignments`); 
+      this.assignmentsData = await this.assignmentService.get({filter: { include: "task"}});
+      this.openAssignmentData = await this.assignmentService.get({filter: { include: "task"}});
 
+      this.projectService = new RestService("core",`reports/account/${model.datas.accountId}/project`)
+      this.projectData = await this.projectService.get();
+
+      console.log(this.projectData)
+
+      this.efficiencyService = new RestService("core",`reports/account/${model.datas.accountId}/assignments/efficiency`)
+      this.efficiencyData = await this.efficiencyService.get();
+      
       this.openAssignmentTable.refresh();
       this.assignmentTable.refresh();
-
+      this.projectsTable.refresh();
     }
 }
   assignmentsColumns = [
@@ -149,6 +156,49 @@ async activate(model) {
     }
   };
 
+
+  //project
+  //column
+   projectCollumns = [
+    {
+      field:"code",
+      title:"Code"
+    },
+    {
+      field:"name",
+      title:"Project Name"
+    },
+    {
+      field:"description",
+      title:"Description"
+    }];
+    
+  //loader
+  projectsLoader = (info) => {
+    if(!this.projectData) {
+      return {
+        data: []
+      }
+    }
+    else {
+    var fields = this.projectCollumns.map(col => {
+      if (typeof col === "string")
+        return col;
+      else if (typeof col === "object" && col.field)
+        return col.field;
+    })
+    var loopbackFilter = createLoopbackFilterObject(info, fields)
+    return Promise
+      .all([null,this.projectData])
+      .then(results => {
+        var data=results[1];
+        return {
+          data: data
+        };
+      });
+    }
+  };
+
   async getEfficiency(){
     this.efficiencyCount = this.assignmentEfficiency.efficiency;
     //nilai efficiencyCount adalah array yang memiliki [nilai elapsed, nilai budget, nilai efisiensi]
@@ -161,8 +211,9 @@ async activate(model) {
 
   async getAssignmentByDate(){
 
-      this.assignmentsData = await this.assignmentService.get({filter: { include: "task",where:{and: [{status:'closed'},{date: {between:[this.startDate,this.endDate]}}]} }});
-      this.openAssignmentData = await this.assignmentService.get({filter: { include: "task",where:{status:'open'} }});
+      this.assignmentService = new RestService("core", `reports/account/${this.data.accountId}/${this.startDate}/to/${this.endDate}/assignments`);     
+      this.assignmentsData = await this.assignmentService.get();
+      this.openAssignmentData = await this.assignmentService.get( );
 
       this.efficiencyService = new RestService("core", `reports/account/${this.data.accountId}/${this.startDate}/to/${this.endDate}/efficiency`);     
       this.efficiencyData = await this.efficiencyService.get();
