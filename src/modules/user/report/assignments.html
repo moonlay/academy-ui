@@ -16,10 +16,11 @@
                             <button type="button" click.delegate="getAssignmentByDate()" class="btn btn-success">Search</button>            
                     </div>
 
-                    
+                    <div class="col-xs-1">
+                    </div>    
 
-                    <div class="col-xs-4 pull-right">
-                        <div class="panel panel-info" if.bind="efficiencyData">
+                    <div class="col-xs-4">
+                        <div class="panel panel-info">
                             <div class="panel-heading">
                                 <div class="row">
                                     <div class="col-xs-2">
@@ -47,11 +48,13 @@
                             data.bind="projectsLoader"
                             columns.bind="projectCollumns"
                             sortable.bind="false" 
-                            page-size="25">                
+                            page-size="25"
+                            context.bind="contextMenu" 
+                            context-click.delegate="__contextMenuCallback($event)">                
                         </au-table>
                     </div>
 
-                    <div class="col-xs-8">
+                    <div class="col-xs-9">
                         <h3>Closed Assignment(s).</h3>
                         <au-table view-model.ref="assignmentTable"
                             data.bind="assignmentLoader"
@@ -60,14 +63,14 @@
                             page-size="15">                
                         </au-table>
                     </div>
-                    <div class="col-xs-4">
+                    <div class="col-xs-3">
                         <h3><b>Detail :</b></h3>
                         <span class="pull-left">Elapsed : </span>
                         <div class="clearfix ">${closedElapsed}</div>
                         <span class="pull-left">Given Time : </span>
                         <div class="clearfix">${closedBudget}</div>
                     </div> 
-                    <div class="col-xs-8">
+                    <div class="col-xs-9">
                         <h3>On-going Assignment(s).</h3>
                             <au-table view-model.ref="openAssignmentTable"
                                 data.bind="assignmentLoaderOpen"
@@ -76,7 +79,7 @@
                                 page-size="15">                
                             </au-table>
                     </div>
-                    <div class="col-xs-4">
+                    <div class="col-xs-3">
                         <h3><b>Detail :</b></h3>
                         <span class="pull-left">Elapsed : </span>
                         <div class="clearfix ">${openElapsed}</div>

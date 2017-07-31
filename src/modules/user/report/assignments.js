@@ -29,6 +29,8 @@ export class assignments {
   
   
 constructor() {
+  this.accountId;
+
   this.countAssignments;
   this.efficiencyCount =0 ;
   this.data=[];
@@ -53,6 +55,8 @@ constructor() {
       if(model.datas==null){
       }
       else{
+
+        this.accountId = model.datas.accountId;
 
         this.assignmentService = new RestService("core", `accounts/${model.datas.accountId}/assignments`); 
         this.assignmentsData = await this.assignmentService.get({filter: { include: "task"}});
@@ -134,13 +138,11 @@ constructor() {
     return Promise
       .all([null,this.assignmentsData])
       .then(results => {
-
-        var data;
-
+        var data= [];
         for(var r of results[1]){
           if(r.status == "closed")
           {
-            data = results[1];
+             data.push(r);
           } 
         }
         this.countClosedAssignmentsDetails(data);
@@ -169,12 +171,11 @@ constructor() {
     return Promise
       .all([null,this.openAssignmentData])
       .then(results => {
-        var data;
-
+        var data = [];
         for(var r of results[1]){
           if(r.status == "open")
           {
-            data = results[1];
+            data.push(r);
           } 
         }
         this.countOpenAssignmentsDetails(data);
@@ -252,7 +253,6 @@ constructor() {
 
       this.assignmentTable.refresh();
       this.openAssignmentTable.refresh();
-
   }
 
   countClosedAssignmentsDetails(array){
@@ -264,6 +264,34 @@ constructor() {
                 return d.budget + last;
             }, 0);     }     
   }
+
+  contextMenu = ["Detail"];
+
+  __contextMenuCallback(event) {
+        var arg = event.detail;
+        var data = arg.data;
+        switch (arg.name) {
+            case "Detail":
+                this.__view(data.id);
+                break;    
+        }
+    }
+
+  __view(id) {
+       // this.router.navigateToRoute('detail', { id: id });
+      this.getAssignmentPerProject(id);
+    }
+
+  async getAssignmentPerProject(id){
+    this.assignmentService = new RestService("core", `reports/account/${this.accountId}/${id}/assignments`);     
+    this.assignmentsData = await this.assignmentService.get();
+    this.openAssignmentData = await this.assignmentService.get();
+
+    this.efficiencyService = new RestService("core", `reports/account/${this.accountId}/${id}/efficiency`);     
+    this.efficiencyData = await this.efficiencyService.get();
+
+    this.assignmentTable.refresh();
+  }  
 
   countOpenAssignmentsDetails(array){
 
