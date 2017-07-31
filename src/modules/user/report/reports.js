@@ -40,24 +40,12 @@ export class reports{
         this.accountId = id;
         this.data = await this.service.get(id, { filter: { include: "profile" } });
 
-        this.countTotalWorkTime();
-        this.countTotalBudget()
         this.countTotalEfficiency();
         this.countClosedAssignment();
         this.countOpenAssignment();
         this.countProjects();
          
     }  
-
-    async countTotalWorkTime(){
-        this.countWorkTime = new RestService("core",`reports/account/${this.accountId}/assignments/elapsed`)
-        this.totalWorkTime = await this.countWorkTime.get();
-      }
-
-    async countTotalBudget(){
-        this.countBudgetTime = new RestService("core",`reports/account/${this.accountId}/assignments/budget`)
-        this.totalBudget = await this.countBudgetTime.get();
-    }
 
     async countTotalEfficiency(){
         this.countEfficiency = new RestService("core",`reports/account/${this.accountId}/assignments/efficiency`)
