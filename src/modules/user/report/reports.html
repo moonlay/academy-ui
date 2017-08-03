@@ -1,93 +1,116 @@
 <template>
     <div class="wrapper">
-        <!-- <div id="page-wrapper"> un comment untuk navigasi di sebelah kiri -->
+        <!-- <div id="page-wrapper"> uncomment untuk navigasi di sebelah kiri -->
         <div id="">
-            <div class="container-fluid">
-                <div class="col-lg-12">
-                        <div class="col-lg-12">
-                                    <p style="font-size: 20px"><b style="font-size: 40px">Report ${data.profile.firstname} ${data.profile.lastname}</b></p>
+            <div class="content-wrapper" style="min-height: 916px;">
+                <section class="content-header">
+                <h1>
+                    Report Page
+                    <small>Control panel</small>
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                    <li class="active">Report</li>
+                </ol>
+                </section>
+                <section class="content">
+
+                    <div class="row">
+                    <section class="col-lg-12 connectedSortable ui-sortable">
+                    <div class="box box-primary">
+                        <div class="box-body">
+                            <div class="col-lg-8">
+                                <div class="box-body table-responsive no-padding">
+                                    <table class="table table-hover">
+                                        <tbody>
+                                            <tr>
+                                                <td><b>First Name</b></td>
+                                                <td>${data.profile.firstname}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Last Name</b></td>
+                                                <td>${data.profile.lastname}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Username</b></td>
+                                                <td>${data.username}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Email</b></td>
+                                                <td>${data.email}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Date of Birth</b></td>
+                                                <td>${dob}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><b>Gender</b></td>
+                                                <td>${data.profile.gender}</td>
+                                            </tr>
+                                            
+                                        </tbody>
+                                    </table>
                                 </div>
-                        <ol class="breadcrumb">
-                            <li>
-                                <i class="fa fa-dashboard"></i>  <a href="index.html">Dashboard</a>
-                            </li>
-                            <li class="active">
-                                <i class="fa fa-desktop"></i> Report
-                            </li>
-                        </ol>
-                    
-                    <div class="panel panel-info">
-                            <div class="panel-body">
-                                
-                                <div class="col-lg-6 col-md-6">
-                                    <div class="panel panel-success">
-                                        <div class="panel-heading">
-                                            <div class="row">
-                                                <div class="col-xs-3">
-                                                    <i class="fa fa-tasks fa-5x">
-                                                    </i>
-                                                </div>
-                                                <div class="col-xs-9 text-right">
-                                                    <p style="font-size: 20px">Number of Assignments</p>
-                                                    <p style="font-size: 30px">${totalClosedAssignment + totalOpenAssignment}</p>
-                                                </div>
-                                                <div class="col-xs-12">
-                                                    <p>
-                                                    <strong>Done </strong>
-                                                        <span class="pull-right text-muted">${totalClosedAssignment}</span>
-                                                    </p>
-                                                    <strong>On-Going </strong>
-                                                        <span class="pull-right text-muted">${totalOpenAssignment}</span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <a click.delegate="showAssignments()">
-                                            <div class="panel-footer">
-                                                <span class="pull-left">View Details</span>
-                                                <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                                <div class="clearfix"></div>
-                                            </div>
-                                        </a>
-                                    </div>
-                                </div><!--end of panel success-->
-                                
-                                 <div class="col-lg-6 col-md-6">
-                                    <div class="panel panel-info">
-                                        <div class="panel-heading">
-                                            <div class="row">
-                                                <div class="col-xs-3">
-                                                    <i class="fa fa-balance-scale fa-5x">
-                                                    </i>
-                                                </div>
-                                                <div class="col-xs-9 text-right">
-                                                    <p style="font-size: 20px">Number of Projects</p>
-                                                    <p style="font-size: 30px">${totalProjects}</p>
-                                                </div>
-                                                <div class="col-xs-12">
-                                                    <p>
-                                                    <strong>something here </strong>
-                                                        <span class="pull-right text-muted">somehting</span>
-                                                    </p>
-                                                    <strong>something here </strong>
-                                                        <span class="pull-right text-muted">somehting</span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div> 
-                                <!--end of panel info-->
                             </div>
-                        </div>
-                        <compose
+                            <div class="col-lg-4 col-md-6 pull-right">
+                                <div class="panel panel-info">
+                                    <div class="panel-heading">
+                                        <div class="row">
+                                            <div class="col-xs-3">
+                                                <i class="fa fa-balance-scale fa-5x">
+                                                </i>
+                                            </div>
+                                            <div class="col-xs-9 text-right">
+                                                <p style="font-size: 20px">Number of Projects</p>
+                                                <p style="font-size: 30px">${totalProjects}</p>
+                                            </div>  
+                                        </div>
+                                    </div>
+                                </div><!--end of panel info-->
+                                <div class="panel panel-success">
+                                    <div class="panel-heading">
+                                        <div class="row">
+                                            <div class="col-xs-3">
+                                                <i class="fa fa-tasks fa-5x">
+                                                </i>
+                                            </div>
+                                            <div class="col-xs-9 text-right">
+                                                <p style="font-size: 20px">Number of Assignments</p>
+                                                <p style="font-size: 30px">${totalClosedAssignment + totalOpenAssignment}</p>
+                                            </div>
+                                            <div class="col-xs-12">
+                                                <p>
+                                                    <strong>Done </strong>
+                                                    <span class="pull-right text-muted">${totalClosedAssignment}</span>
+                                                </p>
+                                                <p>
+                                                    <strong>On-Going </strong>
+                                                    <span class="pull-right text-muted">${totalOpenAssignment}</span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <a click.delegate="showAssignments()">
+                                    <div class="panel-footer">
+                                        <span class="pull-left">View Details</span>
+                                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    </a>
+                                </div>
+                                <!--end of panel success-->
+                            </div>
+                        </div>                       
+                    </div>
+                    </section>
+                </div>
+                    
+                    <compose
                             model.bind="dataku"
-                            view-model="./assignments"></compose>
-                </div>        
+                            view-model="./assignments">
+                </compose>  
+            </section>                  
+                      
             </div>
         </div>
-        <div class="page-footer">
-            
-        </div>
-    </div>
 </template>

@@ -10,31 +10,18 @@ export class assignments {
 
   @bindable assignmentsData;
   @bindable assignmentEfficiency;
-  @bindable countAssignments;
-
   @bindable totalWorkTime;
   @bindable totalBudget;
-
-  @bindable loadStat;
-  @bindable dateRangeStat;
-
   @bindable startDate;
   @bindable endDate;
-  
   @bindable closedElapsed;
   @bindable closedBudget;
-  
   @bindable openElapsed;
   @bindable openBudget;
   
-  
 constructor() {
-  this.countAssignments;
-  this.efficiencyCount =0 ;
+  this.accountId;
   this.data=[];
-  this.loadStat = false;//showing the botton after table loaded
-  this.dateRangeStat =false;//date range input for filter table
-
   this.startDate;
   this.endDate;
 
@@ -54,9 +41,11 @@ constructor() {
       }
       else{
 
+        this.accountId = model.datas.accountId;
+
         this.assignmentService = new RestService("core", `accounts/${model.datas.accountId}/assignments`); 
-        this.assignmentsData = await this.assignmentService.get({filter: { include: "task"}});
-        this.openAssignmentData = await this.assignmentService.get({filter: { include: "task"}});
+        this.assignmentsData = await this.assignmentService.get({filter: { include: "task",where: {status: 'closed'}}});
+        this.openAssignmentData = await this.assignmentService.get({filter: { include: "task",where: {status: 'open'}}});
 
         this.projectService = new RestService("core",`reports/account/${model.datas.accountId}/project`)
         this.projectData = await this.projectService.get();
@@ -111,11 +100,12 @@ constructor() {
     {
         field: "remark",
         title: "Remark"
-    }];
+    }
+  ];
 
-    __dateFormatter = function (value, row, index) {
+  __dateFormatter = function (value, row, index) {
     return value ? moment(value).format("DD-MMM-YYYY") : "-";
-    };
+  };
 
   assignmentLoader = (info) => {
     if(!this.assignmentsData) {
@@ -134,15 +124,13 @@ constructor() {
     return Promise
       .all([null,this.assignmentsData])
       .then(results => {
-
-        var data;
-
-        for(var r of results[1]){
-          if(r.status == "closed")
-          {
-            data = results[1];
-          } 
-        }
+        var data= results[1];
+        // for(var r of results[1]){
+        //   if(r.status == "closed")
+        //   {
+        //      data.push(r);
+        //   } 
+        // }
         this.countClosedAssignmentsDetails(data);
         return {
           data: data
@@ -169,17 +157,14 @@ constructor() {
     return Promise
       .all([null,this.openAssignmentData])
       .then(results => {
-        var data;
-
-        for(var r of results[1]){
-          if(r.status == "open")
-          {
-            data = results[1];
-          } 
-        }
+        var data = results[1];
+        // for(var r of results[1]){
+        //   if(r.status == "open")
+        //   {
+        //     data.push(r);
+        //   } 
+        // }
         this.countOpenAssignmentsDetails(data);
-        if(this.loadStat==false) this.loadStat = 1; // mengisi variabel agar memunculkan button
-        else this.loadStat = true;
         return {
           data: data
         };
@@ -230,14 +215,10 @@ constructor() {
     }
   };
 
-  showDateRange(){
-    this.loadStat = false;
-    this.dateRangeStat = true;
-  }
 
   async getAssignmentByDate(){
 
-      this.assignmentService = new RestService("core", `reports/account/${this.data.accountId}/${this.startDate}/to/${this.endDate}/assignments`);     
+      this.assignmentService = new RestService("core", `reports/account/${this.data.accountId}/${this.startDate}/to/${this.endDate}/assignments/open`);     
       this.assignmentsData = await this.assignmentService.get();
       this.openAssignmentData = await this.assignmentService.get( );
 
@@ -252,7 +233,6 @@ constructor() {
 
       this.assignmentTable.refresh();
       this.openAssignmentTable.refresh();
-
   }
 
   countClosedAssignmentsDetails(array){
@@ -265,8 +245,35 @@ constructor() {
             }, 0);     }     
   }
 
-  countOpenAssignmentsDetails(array){
+  contextMenu = ["Detail"];
 
+  __contextMenuCallback(event) {
+        var arg = event.detail;
+        var data = arg.data;
+        switch (arg.name) {
+            case "Detail":
+                this.__view(data.id);
+                break;    
+        }
+    }
+
+  __view(id) {
+       // this.router.navigateToRoute('detail', { id: id });
+      this.getAssignmentPerProject(id);
+    }
+
+  async getAssignmentPerProject(id){
+    this.assignmentService = new RestService("core", `reports/account/${this.accountId}/${id}/assignments`);     
+    this.assignmentsData = await this.assignmentService.get();
+    this.openAssignmentData = await this.assignmentService.get();
+
+    this.efficiencyService = new RestService("core", `reports/account/${this.accountId}/${id}/efficiency`);     
+    this.efficiencyData = await this.efficiencyService.get();
+
+    this.assignmentTable.refresh();
+  }  
+
+  countOpenAssignmentsDetails(array){
     if(array!=null){
       this.openElapsed = array.reduce(function(last, d) {
                 return d.elapsed + last;

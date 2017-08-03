@@ -16,6 +16,7 @@ export class List {
     return value ? moment(value).format("DD-MMM-YYYY") : "-";
   }
 
+
   async bind(context){
     this.context = context;
     this.data = this.context.data;
@@ -42,6 +43,27 @@ export class List {
       })
   }
     
+
+  columns = [
+    "code",
+    "name",
+    {
+      field: "date", title: "date",
+      formatter: this.__dateFormatter
+    },
+    "budget",
+    "actual",
+    {
+      field: "open", title: "open",
+      formatter: this.__dateFormatter
+    },
+    {
+      field: "close", title: "close",
+      formatter: this.__dateFormatter
+    },
+    "remark",
+    "status"];
+
   contextMenu = ["Detail","Assignment(s)"];
 
   loader = (info) => {

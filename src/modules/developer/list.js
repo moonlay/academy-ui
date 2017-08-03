@@ -6,6 +6,7 @@ import moment from "moment";
 
 @inject(Router)
 export class List {
+
     info = {};
     constructor(router) {
         this.service = new RestService("core", "assignments");
