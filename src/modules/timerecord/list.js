@@ -7,36 +7,22 @@ import moment from "moment";
 @inject(Router)
 export class List {
   constructor(router) {
-    this.service = new RestService("core", "assignments");
+    this.service = new RestService("core", "timerecords");
     this.router = router;
-    this.getData();
   }
-
-  async bind(context) {
-    this.context = context;
-    this.data = this.context.data;
-
+  __dateFormatter = function (value, row, index) {
+    return value ? moment(value).format("DD-MMM-YYYY") : "-";
   }
-
-getData() {
-    this.service.get().then(results => {
-      this.data = results;
-      var elapsedService = [];
-      for (var item of this.data) {
-        var e = new RestService("core", `assignments/${item.id}/elapsed`);
-        elapsedService.push(a.get());
-      }
-      Promise.all(elapsedService).then(result => {
-        for (var index in this.data) {
-          console.log("result");
-          console.log(result[index].Elapsed);
-          this.data[index].elapsed = result[index].Elapsed;
-
-        }
-        console.log(this.data);
-      })
-    })
-  }
+  columns = [
+    "id",
+    "name",
+    "description",
+    "assignmentId",
+    "projectId",
+    "date",
+    "remark",
+    {field: "waktu", title: "duration"}];
+    
   contextMenu = ["Detail"];
 
   loader = (info) => {
@@ -51,6 +37,7 @@ getData() {
     return Promise
       .all([this.service.count(loopbackFilter.filter), this.service.list(loopbackFilter)])
       .then(results => {
+        debugger;
         var count = results[0].count;
         var data = results[1];
         return {
@@ -64,17 +51,17 @@ getData() {
     this.router.navigateToRoute('view', { id: id });
   }
 
-  create() {
-    this.router.navigateToRoute('create');
-  }
-
   __contextMenuCallback(event) {
     var arg = event.detail;
     var data = arg.data;
     switch (arg.name) {
       case "Detail":
         this.__view(data.id);
-        break;
+       break;
     }
+
+    
   }
+
+  
 }
