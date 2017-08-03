@@ -8,6 +8,7 @@ import moment from "moment";
 import { Assignments } from './assignments'
 
 
+
 @inject(Router, Dialog)
 export class reports{
     @bindable totalProjects;
