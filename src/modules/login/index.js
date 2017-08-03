@@ -3,11 +3,6 @@ import { AuthService } from "aurelia-authentication";
 import './style.css';
 
 @inject(AuthService)
-
-
-
-
-
 export class Login { 
     username="";
     password="";

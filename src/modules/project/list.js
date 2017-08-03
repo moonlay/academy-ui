@@ -15,7 +15,7 @@ export class List {
   }
 
   columns = ["code", "name"];
-  contextMenu = ["Detail", "Manage"];
+  contextMenu = ["Detail", "Manage","Test"];
 
   loader = (info) => {
     var fields = this.columns.map(col => {
@@ -26,6 +26,7 @@ export class List {
     })
 
     var loopbackFilter = createLoopbackFilterObject(info, fields)
+    
     return Promise
       .all([this.service.count(loopbackFilter.filter), this.service.list(loopbackFilter)])
       .then(results => {

@@ -7,11 +7,12 @@
     page-size="25"
     context.bind="contextMenu" 
     context-click.delegate="__contextMenuCallback($event)">
+    
     <button slot="toolbar" class="btn btn-success" click.delegate="create()">Create new Task</button>
-  
   </au-table> -->
-  
   <table class="table table-bordered table-hover">
+    <button slot="toolbar" class="btn btn-success" click.delegate="create()">Create new Task</button>
+    <hr/>
     <tr>
       <th><center>code</center></th>
       <th><center>name</center></th>
@@ -24,8 +25,7 @@
       <th><center>status</center></th>
       <!-- <th><center>duration</center></th> -->
     </tr>
-    <tr context.bind="contextMenu" 
-    context-click.delegate="__contextMenuCallback($event)" 
+    <tr  
     repeat.for="item of data">
       <td>${item.code}</td>
       <td>${item.name}</td>

@@ -21,7 +21,7 @@ export class List {
     "projectId",
     "date",
     "remark",
-    "duration"];
+    {field: "waktu", title: "duration"}];
     
   contextMenu = ["Detail"];
 

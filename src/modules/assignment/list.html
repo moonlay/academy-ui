@@ -1,25 +1,29 @@
 <template>
-  <h1 class="page-header">Assignment</h1>
-<table class="table table-bordered table-hover">
-    
-  <tr>
-      <th><center> Id </center></th>
-      <th> <center>Name </center></th>
-      <th> <center> Persentasi <br/>(%)</center></th>
-      <th> <center>Action</center></th>
-      
-  </tr>
-  <tr  context.bind="contextMenu" 
-    context-click.delegate="__contextMenuCallback($event)"
-  repeat.for="item of data" >
-    <td>${item.id}</td>
-    <td>${item.name}</td>
-    <td>${(((item.duration/(item.budget*3600))*100).toFixed(2))}</td>
-  
-  
-    <td>
-    <button class="btn btn-success" click.delegate="__view(item.id)">Lihat Detail</button>
-    </td>
-  </tr>
-</table>
+  <h1 class="page-header">Assignments</h1>
+  <table class="table table-bordered table-hover">
+    <button slot="toolbar" class="btn btn-success" click.delegate="create()">Create new Assignment</button>
+    <hr/>
+    <tr>
+      <th><center>Date</center></th>
+      <th><center>Remark</center></th>
+      <th><center>Budget</center></th>
+      <th><center>Elapsed</center></th>
+      <th><center>Status</center></th>
+      <th><center>Id</center></th>
+      <th><center>Account Id</center></th>
+      <th><center>Task Id</center></th>
+      <th><center>Iteration Id</center></th>
+    </tr>
+    <tr  
+    repeat.for="item of data">
+      <td>${item.date}</td>
+      <td>${item.remark}</td>
+      <td>${item.budget}</td>
+      <td>${item.elapsed}</td>
+      <td>${item.status}</td>
+      <td>${item.id}</td>
+      <td>${item.accountId}</td>
+      <td>${item.taskId}</td>
+      <td>${item.iterationId}</td>
+    </tr>
 </template>

@@ -1,23 +1,178 @@
 <template>
+
+
+  <!-- Bootstrap Core CSS -->
+  <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- MetisMenu CSS -->
+  <link href="../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+
+  <!-- Social Buttons CSS -->
+  <link href="../vendor/bootstrap-social/bootstrap-social.css" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
+
+  <!-- Custom Fonts -->
+  <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+
   <h1 class="page-header">Dashboard</h1>
-  <center>
-  <div repeat.for="item of data">
-        ${item.id} 
-        <input type="text"  value.bind="item.elapsed" style="text-align:center" readonly />
-        <input type="text" value.bind="item.duration" style="text-align:center" hidden  />
-        <button id ="button" if.bind="item.isStart" click.delegate="pause(item)">Pause</button>
-        <button id ="button" if.bind="!item.isStart" click.delegate="start(item)">Start</button>
-        <button if.bind="item.isStop" click.delegate="stop(item)">Stop 
-        </button>
-        <button click.delegate="__view(item.id)">Lihat Detail</button>
-        <hr/>
+  <!-- <center>
+  
+
+  </center> -->
+  <div class="row">
+
+    <div class="col-lg-3 col-md-6">
+      <div class="panel panel-green">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-xs-3">
+              <i class="fa fa-tasks fa-5x"></i>
+            </div>
+            <div class="col-xs-9 text-right">
+              <div class="huge">${info.totAssignments}</div>
+              <div>Assignments</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
 
-  <div repeat.for="item of dataClosed">
-        ${item.id} 
-        <button click.delegate="__view(item.id)">Lihat Detail</button>
-        <hr/>
+    <div class="col-lg-3 col-md-6">
+      <div class="panel panel-red">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-xs-3">
+              <i class="fa fa-tasks fa-5x"></i>
+            </div>
+            <div class="col-xs-9 text-right">
+              <div class="huge">${info.totTasks}</div>
+              <div>Tasks</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
     </div>
-      
-  </center>
+
+  </div>
+
+
+  <!-- <div class="col-lg-400">
+    <form action="/action_page.php">
+      <input type="search" id="mySearch" placeholder="Search for something.." style="text-align:center;">
+
+
+    </form>
+  </div> -->
+
+  <h3> Assignments (OPEN) </h3>
+
+  <div class="col-lg-12">
+    <div class="panel panel-default">
+      <!-- <div class="panel-heading">
+                            Basic Table
+                        </div>
+                        <!-- /.panel-heading -->
+      <!-- <div class="panel-body"> -->
+      <!-- <div class="table-responsive"> -->
+
+
+      <table class="table table-bordered table hover">
+        <thead>
+          <tr class="info">
+            <th> Id Assignment</th>
+            <th>Elapsed</th>
+            <th>Action
+
+            </th>
+          </tr>
+        </thead>
+
+
+        <tr context.bind="contextMenu" context-click.delegate="__contextMenuCallback($event)" repeat.for="item of data">
+
+          <!-- <div repeat.for="item of data"> -->
+          <!-- ${item.id}<input type="text" value.bind="item.elapsed" style="text-align:center" readonly />  -->
+
+          <td>${item.id}</td>
+          <td>${item.elapsed}</td>
+          <td>
+
+            <button id="button" class="btn btn-primary" if.bind="!item.isStart" click.delegate="start(item)">Start</button>
+
+            <button type="button" class="btn btn-primary" if.bind="item.isStart" click.delegate="pause(item)">Pause</button>
+
+            <button type="button" class="btn btn-primary" click.delegate="stop(item)">Stop</button>
+
+
+            <button class="btn btn-success" click.delegate="__view(item.id)">Lihat Detail</button>
+
+
+
+
+          </td>
+        </tr>
+
+
+      </table>
+    </div>
+  </div>
+
+  <h3> Assignments (CLOSED) </h3>
+
+  <div class="col-lg-12 col-md-10">
+    <div class="panel panel-default">
+      <table class="table table-bordered table hover">
+        <thead>
+          <tr class="info">
+            <th> Id Assignment</th>
+
+            <th>Action
+
+            </th>
+          </tr>
+        </thead>
+
+
+        <tr context.bind="contextMenu" context-click.delegate="__contextMenuCallback($event)" repeat.for="item of dataClosed">
+
+          <!-- <div repeat.for="item of data"> -->
+          <!-- ${item.id}<input type="text" value.bind="item.elapsed" style="text-align:center" readonly />  -->
+
+          <td>${item.id}</td>
+
+          <td>
+            <button class="btn btn-success" click.delegate="__view(item.id)">Lihat Detail</button>
+          </td>
+        </tr>
+
+
+
+      </table>
+
+    </div>
+  </div>
+
+
+
+  <!-- jQuery -->
+  <script src="../vendor/jquery/jquery.min.js"></script>
+
+  <!-- Bootstrap Core JavaScript -->
+  <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+
+  <!-- Metis Menu Plugin JavaScript -->
+  <script src="../vendor/metisMenu/metisMenu.min.js"></script>
+
+  <!-- Custom Theme JavaScript -->
+  <script src="../dist/js/sb-admin-2.js"></script>
+
+
+
+
 </template>

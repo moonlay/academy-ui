@@ -26,4 +26,3 @@ export class GenericSettings {
     return 12 - this.options.control.length;
   }
 }
-

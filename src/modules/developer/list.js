@@ -6,10 +6,12 @@ import moment from "moment";
 
 @inject(Router)
 export class List {
+    info = {};
     constructor(router) {
         this.service = new RestService("core", "assignments");
         this.router = router;
         this.getData();
+        this.getInfo();
         this.waktu = 0.0;
     }
     getData() {
@@ -34,6 +36,14 @@ export class List {
 
         })
     }
+
+    async getInfo() {
+        var serviceAssignment =  new RestService("core", "assignments");
+        var serviceTask =  new RestService("core", "tasks");
+        this.info.totAssignments = (await serviceAssignment.count()).count;
+        this.info.totTasks = (await serviceTask.count()).count;
+    }
+
     __view(id) {
         this.router.navigateToRoute('view', { id: id });
     }

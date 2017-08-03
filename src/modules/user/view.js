@@ -11,7 +11,7 @@ export class View {
 
   constructor(router, dialog) {
     this.service = new RestService("core", "accounts");
-    this.router = router;
+    this.router = router; 
     this.dialog = dialog;
   }
 
@@ -21,7 +21,6 @@ export class View {
   async activate(params) {
     var id = params.id;
     this.data = await this.service.get(id, { filter: { include: "profile" } });
-    console.log(this.data.profile.firstname);
   }
 
   cancelCallback() {
