@@ -17,7 +17,8 @@ export class App {
       { route: 'assignments',  name: 'assignments', moduleId: './modules/assignment/index', nav: true, title: 'Assignment' },
       { route: 'tasks',  name: 'tasks', moduleId: './modules/task/index', nav: true, title: 'Task' },
       { route: 'dashboard',  name: 'dashboard', moduleId: './modules/dashboard/index', nav: true, title: 'Dashboard' },
-      { route: 'developer', name: 'developer', moduleId: './modules/developer/index', nav: true, title: 'Developer' } 
+      { route: 'developer', name: 'developer', moduleId: './modules/developer/index', nav: true, title: 'Developer' },
+      { route: 'timerecord',  name: 'timerecord', moduleId: './modules/timerecord/index', nav: true, title: 'Timerecord' }       
     ]);
 
     this.router = router;
