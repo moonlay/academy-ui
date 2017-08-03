@@ -2,25 +2,23 @@
     <div class="wrapper">
         <!-- <div id="page-wrapper"> uncomment untuk navigasi di sebelah kiri -->
         <div id="">
-            <div class="container-fluid">
-                <div class="col-lg-12">
-                        <div class="col-lg-12">
-                            <p style="font-size: 30px">Report <b style="font-size: 40px">${data.profile.firstname} ${data.profile.lastname}</b></p>
-                        </div>          
-                        <div class="col-xs-12">
-                            <hr>
-                        </div>   
-                        <ol class="breadcrumb">
-                            <li>
-                                <i class="fa fa-dashboard"></i>  <a href="index.html">Dashboard</a>
-                            </li>
-                            <li class="active">
-                                <i class="fa fa-desktop"></i> Report
-                            </li>
-                        </ol>
-                    
-                    <div class="panel panel-info">
-                        <div class="panel-body">
+            <div class="content-wrapper" style="min-height: 916px;">
+                <section class="content-header">
+                <h1>
+                    Report Page
+                    <small>Control panel</small>
+                </h1>
+                <ol class="breadcrumb">
+                    <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                    <li class="active">Report</li>
+                </ol>
+                </section>
+                <section class="content">
+
+                    <div class="row">
+                    <section class="col-lg-12 connectedSortable ui-sortable">
+                    <div class="box box-primary">
+                        <div class="box-body">
                             <div class="col-lg-8">
                                 <div class="box-body table-responsive no-padding">
                                     <table class="table table-hover">
@@ -49,9 +47,10 @@
                                                 <td><b>Gender</b></td>
                                                 <td>${data.profile.gender}</td>
                                             </tr>
+                                            
                                         </tbody>
                                     </table>
-                                    </div>
+                                </div>
                             </div>
                             <div class="col-lg-4 col-md-6 pull-right">
                                 <div class="panel panel-info">
@@ -60,8 +59,6 @@
                                             <div class="col-xs-3">
                                                 <i class="fa fa-balance-scale fa-5x">
                                                 </i>
-                                                
-
                                             </div>
                                             <div class="col-xs-9 text-right">
                                                 <p style="font-size: 20px">Number of Projects</p>
@@ -105,11 +102,15 @@
                             </div>
                         </div>                       
                     </div>
-                <compose
+                    </section>
+                </div>
+                    
+                    <compose
                             model.bind="dataku"
                             view-model="./assignments">
-                </compose>        
-                </div>
+                </compose>  
+            </section>                  
+                      
             </div>
         </div>
 </template>

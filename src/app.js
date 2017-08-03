@@ -2,6 +2,7 @@ import "admin-lte"
 import "admin-lte/bootstrap/css/bootstrap.min.css"
 import "admin-lte/dist/css/AdminLTE.min.css"
 import "admin-lte/dist/css/skins/_all-skins.min.css"
+// import "admin-lte/../../bower_components/bootstrap-daterangepicker/daterangepicker.css"
 export class App {
   configureRouter(config, router) {
     config.title = 'Aurelia';
