@@ -1,116 +1,47 @@
 <template>
     <div class="wrapper">
         <!-- <div id="page-wrapper"> uncomment untuk navigasi di sebelah kiri -->
-        <div id="">
-            <div class="content-wrapper" style="min-height: 916px;">
+            <div class="wrapper" style="min-height: 916px;">
                 <section class="content-header">
-                <h1>
-                    Report Page
-                    <small>Control panel</small>
+                <h1><b>
+                
+                    <small>Report</small>
+                    ${data.profile.firstname} ${data.profile.lastname}</b>
                 </h1>
                 <ol class="breadcrumb">
                     <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
                     <li class="active">Report</li>
                 </ol>
+                <hr>
                 </section>
                 <section class="content">
+                    <div class="callout callout-info">
+                        <h4>Report !</h4>
 
-                    <div class="row">
-                    <section class="col-lg-12 connectedSortable ui-sortable">
-                    <div class="box box-primary">
-                        <div class="box-body">
-                            <div class="col-lg-8">
-                                <div class="box-body table-responsive no-padding">
-                                    <table class="table table-hover">
-                                        <tbody>
-                                            <tr>
-                                                <td><b>First Name</b></td>
-                                                <td>${data.profile.firstname}</td>
-                                            </tr>
-                                            <tr>
-                                                <td><b>Last Name</b></td>
-                                                <td>${data.profile.lastname}</td>
-                                            </tr>
-                                            <tr>
-                                                <td><b>Username</b></td>
-                                                <td>${data.username}</td>
-                                            </tr>
-                                            <tr>
-                                                <td><b>Email</b></td>
-                                                <td>${data.email}</td>
-                                            </tr>
-                                            <tr>
-                                                <td><b>Date of Birth</b></td>
-                                                <td>${dob}</td>
-                                            </tr>
-                                            <tr>
-                                                <td><b>Gender</b></td>
-                                                <td>${data.profile.gender}</td>
-                                            </tr>
-                                            
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-6 pull-right">
-                                <div class="panel panel-info">
-                                    <div class="panel-heading">
-                                        <div class="row">
-                                            <div class="col-xs-3">
-                                                <i class="fa fa-balance-scale fa-5x">
-                                                </i>
-                                            </div>
-                                            <div class="col-xs-9 text-right">
-                                                <p style="font-size: 20px">Number of Projects</p>
-                                                <p style="font-size: 30px">${totalProjects}</p>
-                                            </div>  
-                                        </div>
-                                    </div>
-                                </div><!--end of panel info-->
-                                <div class="panel panel-success">
-                                    <div class="panel-heading">
-                                        <div class="row">
-                                            <div class="col-xs-3">
-                                                <i class="fa fa-tasks fa-5x">
-                                                </i>
-                                            </div>
-                                            <div class="col-xs-9 text-right">
-                                                <p style="font-size: 20px">Number of Assignments</p>
-                                                <p style="font-size: 30px">${totalClosedAssignment + totalOpenAssignment}</p>
-                                            </div>
-                                            <div class="col-xs-12">
-                                                <p>
-                                                    <strong>Done </strong>
-                                                    <span class="pull-right text-muted">${totalClosedAssignment}</span>
-                                                </p>
-                                                <p>
-                                                    <strong>On-Going </strong>
-                                                    <span class="pull-right text-muted">${totalOpenAssignment}</span>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <a click.delegate="showAssignments()">
-                                    <div class="panel-footer">
-                                        <span class="pull-left">View Details</span>
-                                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                                        <div class="clearfix"></div>
-                                    </div>
-                                    </a>
-                                </div>
-                                <!--end of panel success-->
-                            </div>
-                        </div>                       
+                        <p>Add the layout-boxed class to the body tag to get this layout. The boxed layout is helpful when working on
+                            large screens because it prevents the site from stretching very wide.
+                        </p>
                     </div>
-                    </section>
+                    <div class="box box-primary">
+                        <div class="box-header ui-sortable-handles">
+                            <a click.delegate="showAssignments()" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>                            
+                        </div>
+                        <div class="box-body">
+                            <compose
+                                model.bind="dataku"
+                                view-model="./assignments">
+                            </compose>
+                        </div>
+                        <div class="box-footer">
+                                Start creating your amazing application!
+                        </div>
+                    </div>
+                  
+            </section>
+            <section class="content-footer">
+                <div class="pull-right hidden-xs">
+                <b>Version</b> 2.4.0
                 </div>
-                    
-                    <compose
-                            model.bind="dataku"
-                            view-model="./assignments">
-                </compose>  
-            </section>                  
-                      
-            </div>
-        </div>
+            </section>                     
+        </div>  
 </template>

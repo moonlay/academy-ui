@@ -39,11 +39,6 @@ export class reports{
         var id = params.id;
         this.accountId = id;
         this.data = await this.service.get(id, { filter: { include: "profile" } });
-        this.countTotalEfficiency();
-        this.countClosedAssignment();
-        this.countOpenAssignment();
-        this.countProjects();
-
         this.dob = this.GetFormattedDate(this.data.profile.dob);
          
     }  

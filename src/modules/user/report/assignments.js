@@ -18,21 +18,33 @@ export class assignments {
   @bindable closedBudget;
   @bindable openElapsed;
   @bindable openBudget;
+  @bindable efficiencyData;
+
+  @bindable countAssignments;
+  @bindable countExceedDeadline;
+  @bindable exceededElapsed;
+  @bindable totalProjects;
   
 constructor() {
   this.accountId;
   this.data=[];
+
   this.startDate;
   this.endDate;
 
   this.totalWorkTime;
   this.totalBudget;
+  this.totalProjects;
 
   this.closedElapsed;
   this.closedBudget;
   
   this.openElapsed;
   this.openBudget;
+
+  this.countAssignments = 0;
+  this.countExceedDeadline = 0;
+  this.exceededElapsed = 0;
 }
 
   async activate(model) {
@@ -44,8 +56,10 @@ constructor() {
         this.accountId = model.datas.accountId;
 
         this.assignmentService = new RestService("core", `accounts/${model.datas.accountId}/assignments`); 
-        this.assignmentsData = await this.assignmentService.get({filter: { include: "task",where: {status: 'closed'}}});
-        this.openAssignmentData = await this.assignmentService.get({filter: { include: "task",where: {status: 'open'}}});
+        this.assignmentsData = await this.assignmentService.get({filter: { include: "task"}});
+
+        this.countProject = new RestService("core", `reports/account/${model.datas.accountId}/project/count`)
+        this.totalProjects = await this.countProject.get();
 
         this.projectService = new RestService("core",`reports/account/${model.datas.accountId}/project`)
         this.projectData = await this.projectService.get();
@@ -58,16 +72,12 @@ constructor() {
 
         this.efficiencyService = new RestService("core",`reports/account/${model.datas.accountId}/assignments/efficiency`)
         this.efficiencyData = await this.efficiencyService.get();
-
         this.refreshTables();
-
       }  
   }
 
   refreshTables(){
-    this.openAssignmentTable.refresh();
     this.assignmentTable.refresh();
-    this.projectsTable.refresh();
   }
 
   assignmentsColumns = [
@@ -89,11 +99,17 @@ constructor() {
     },
     {
         field: "elapsed",
-        title: "Elapsed Time"
+        title: "Elapsed"
     },
     {
         field: "date", 
-        title: "Date",
+        title: "Date Assigned",
+        formatter: function (value, row, index) {
+        return value ? moment(value).format("DD-MMM-YYYY") : "-";}
+    },
+        {
+        field: "deadline", 
+        title: "Deadline Date",
         formatter: function (value, row, index) {
         return value ? moment(value).format("DD-MMM-YYYY") : "-";}
     },
@@ -102,6 +118,31 @@ constructor() {
         title: "Remark"
     }
   ];
+
+  secondsToTime(secs)
+  {
+    secs = Math.round(secs);
+    var hours = Math.floor(secs / (60 * 60));
+
+    var divisor_for_minutes = secs % (60 * 60);
+    var minutes = Math.floor(divisor_for_minutes / 60);
+
+    var divisor_for_seconds = divisor_for_minutes % 60;
+    var seconds = Math.ceil(divisor_for_seconds);
+
+    if (hours < 10) {hours = "0"+hours;}
+    if (minutes < 10) {minutes = "0"+minutes;}
+    if (seconds < 10) {seconds = "0"+seconds;}
+
+    var time = hours+":"+minutes+":"+seconds
+
+    var obj = {
+        "h": hours,
+        "m": minutes,
+        "s": seconds
+    };
+    return time;
+  }
 
   __dateFormatter = function (value, row, index) {
     return value ? moment(value).format("DD-MMM-YYYY") : "-";
@@ -114,6 +155,7 @@ constructor() {
       }
     }
     else {
+    this.countAssignments = 0; 
     var fields = this.assignmentsColumns.map(col => {
       if (typeof col === "string")
         return col;
@@ -121,118 +163,31 @@ constructor() {
         return col.field;
     })
     var loopbackFilter = createLoopbackFilterObject(info, fields)
+    loopbackFilter.filter.include = "task";
     return Promise
-      .all([null,this.assignmentsData])
+      .all([this.assignmentService.count(loopbackFilter.filter),this.assignmentService.list(loopbackFilter)])
       .then(results => {
-        var data= results[1];
-        // for(var r of results[1]){
-        //   if(r.status == "closed")
-        //   {
-        //      data.push(r);
-        //   } 
-        // }
-        this.countClosedAssignmentsDetails(data);
-        return {
-          data: data
-        };
-      });
-    }
-  };
-
-  //openAssignment
-  assignmentLoaderOpen = (info) => {
-    if(!this.openAssignmentData) {
-      return {
-        data: []
-      }
-    }
-    else {
-    var fields = this.assignmentsColumns.map(col => {
-      if (typeof col === "string")
-        return col;
-      else if (typeof col === "object" && col.field)
-        return col.field;
-    })
-    var loopbackFilter = createLoopbackFilterObject(info, fields)
-    return Promise
-      .all([null,this.openAssignmentData])
-      .then(results => {
+        var count = results[0].count;
         var data = results[1];
-        // for(var r of results[1]){
-        //   if(r.status == "open")
-        //   {
-        //     data.push(r);
-        //   } 
-        // }
-        this.countOpenAssignmentsDetails(data);
+        this.countAssignments = results[0].count;
+        this.countClosedAssignmentsDetails(results[1]);
+
+
+        console.log(this.secondsToTime(36666));
         return {
+          total: count,
           data: data
         };
       });
     }
   };
-
-
-  //project
-  //column
-   projectCollumns = [
-    {
-      field:"code",
-      title:"Code"
-    },
-    {
-      field:"name",
-      title:"Project Name"
-    },
-    {
-      field:"description",
-      title:"Description"
-    }];
-    
-  //loader
-  projectsLoader = (info) => {
-    if(!this.projectData) {
-      return {
-        data: []
-      }
-    }
-    else {
-    var fields = this.projectCollumns.map(col => {
-      if (typeof col === "string")
-        return col;
-      else if (typeof col === "object" && col.field)
-        return col.field;
-    })
-    var loopbackFilter = createLoopbackFilterObject(info, fields)
-    return Promise
-      .all([null,this.projectData])
-      .then(results => {
-        var data=results[1];
-        return {
-          data: data
-        };
-      });
-    }
-  };
-
 
   async getAssignmentByDate(){
 
-      this.assignmentService = new RestService("core", `reports/account/${this.data.accountId}/${this.startDate}/to/${this.endDate}/assignments/open`);     
+      this.assignmentService = new RestService("core", `reports/account/${this.data.accountId}/${this.startDate}/to/${this.endDate}/assignments`);     
       this.assignmentsData = await this.assignmentService.get();
-      this.openAssignmentData = await this.assignmentService.get( );
-
-      this.efficiencyService = new RestService("core", `reports/account/${this.data.accountId}/${this.startDate}/to/${this.endDate}/efficiency`);     
-      this.efficiencyData = await this.efficiencyService.get();
-
-      this.totalBudgetService = new RestService("core", `reports/account/${this.data.accountId}/${this.startDate}/to/${this.endDate}/assignments/budget`);     
-      this.totalBudget = await this.totalBudgetService.get();
-
-      this.elapsedTimeService = new RestService("core", `reports/account/${this.data.accountId}/${this.startDate}/to/${this.endDate}/assignments/elapsed`);     
-      this.totalWorkTime = await this.elapsedTimeService.get();
 
       this.assignmentTable.refresh();
-      this.openAssignmentTable.refresh();
   }
 
   countClosedAssignmentsDetails(array){
@@ -242,7 +197,9 @@ constructor() {
             }, 0);
       this.closedBudget = array.reduce(function(last, d) {
                 return d.budget + last;
-            }, 0);     }     
+            }, 0); 
+       this.exceededElapsed =(((this.closedElapsed - (this.closedBudget*3600))/(this.closedBudget*3600))*100);      
+          }    
   }
 
   contextMenu = ["Detail"];
@@ -258,14 +215,12 @@ constructor() {
     }
 
   __view(id) {
-       // this.router.navigateToRoute('detail', { id: id });
       this.getAssignmentPerProject(id);
     }
 
   async getAssignmentPerProject(id){
     this.assignmentService = new RestService("core", `reports/account/${this.accountId}/${id}/assignments`);     
     this.assignmentsData = await this.assignmentService.get();
-    this.openAssignmentData = await this.assignmentService.get();
 
     this.efficiencyService = new RestService("core", `reports/account/${this.accountId}/${id}/efficiency`);     
     this.efficiencyData = await this.efficiencyService.get();

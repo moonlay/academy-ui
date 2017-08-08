@@ -1,9 +1,16 @@
 <template>
 <!-- <div if.bind="assignmentData"> -->
     
-    <div if.bind="data">
-        <div class="panel panel-info">
-            <div class="panel-body">
+    <div>
+       <div class="box box-info">
+           <div class="box-header with-border">
+            <h3 class="box-title"> Details</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body">
                 <div class="row">
                     <div class="col-xs-12">
                     <div class="col-xs-3">
@@ -31,7 +38,7 @@
                                     </div>
                                     <div class="col-xs-4  pull-right text-right">
                                         <p style="font-size: 20px">Efficiency</p>
-                                        <p if.bind = "efficiencyData" value.bind="efficiencyData" style="font-size: 30px">${efficiencyData} %</p>
+                                        <p if.bind = "efficiencyData" value.bind="efficiencyData" style="font-size: 20px">${efficiencyData} %</p>
                                     </div>
                                 </div>
                             </div>                      
@@ -41,96 +48,99 @@
                                     <span class="pull-left">Given Time : </span>
                                     <div class="clearfix">${totalBudget}</div>
                                 </div>
-                        </div>
-                    </div>
-
-                    
-                    <div class="col-xs-12">
-                        <hr>
-                    </div>
-                       
-                    <div class="col-xs-12">
-                        <h3>Project(s).</h3>
-                        <au-table view-model.ref="projectsTable"
-                            data.bind="projectsLoader"
-                            columns.bind="projectCollumns"
-                            sortable.bind="false" 
-                            
-                            context.bind="contextMenu" 
-                            context-click.delegate="__contextMenuCallback($event)">                
-                        </au-table>
-                    </div>
-
-                    <div class="col-xs-12">
-                        <hr>
-                    </div>   
-
-                    <div class="col-xs-9">
-                        <h3>Closed Assignment(s).</h3>
-                        <au-table view-model.ref="assignmentTable"
-                            data.bind="assignmentLoader"
-                            columns.bind="assignmentsColumns"
-                            sortable.bind="false" 
-                            >                
-                        </au-table>
-                    </div>
-                    <div class="col-xs-3">
-                        
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-xs-12">
-                                        <p style="font-size: 20px">Detail :</p>
-                                    </div>
-                                </div>
                             </div>
-                            <div class="panel-body">
-                                 <div class="row">
-                                    <div class="col-xs-12">
-                                        <span class="pull-left">Elapsed : </span>
-                                        <div class="clearfix ">${closedElapsed}</div>
-                                        <span class="pull-left">Given Time : </span>
-                                        <div class="clearfix">${closedBudget}</div>
-                                    </div>
-                                </div>
-                            </div>    
-                            
                         </div>
                     </div>
-                    <div class="col-xs-12">
-                        <hr>
-                    </div>   
-                    <div class="col-xs-9">
-                        <h3>On-going Assignment(s).</h3>
-                            <au-table view-model.ref="openAssignmentTable"
-                                data.bind="assignmentLoaderOpen"
+                </div>
+            </div>
+       </div>
+        <div class="box box-info">
+            <div class="box-header with-border">
+                <h3 class="box-title"> Details</h3>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="col-xs-9">
+                            <h3>Assignment(s).</h3>
+
+                            <au-table 
+                                view-model.ref="assignmentTable"
+                                data.bind="assignmentLoader"
                                 columns.bind="assignmentsColumns"
-                                sortable.bind="false" 
-                               >                
-                            </au-table>
-                    </div>
-                    <div class="col-xs-3">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <div class="row">
-                                    <div class="col-xs-12">
-                                        <p style="font-size: 20px">Detail :</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="panel-body">
-                                 <div class="row">
-                                    <div class="col-xs-12">
-                                        <span class="pull-left">Elapsed : </span>
-                                        <div class="clearfix ">${openElapsed}</div>
-                                        <span class="pull-left">Given Time : </span>
-                                        <div class="clearfix">${openBudget}</div>
-                                    </div>
-                                </div>
-                            </div>    
-                        </div>
-                    </div>
+                                sortable.bind="true"  
+                                page-size="10">                
+                            </au-table> 
 
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="small-box bg-aqua">
+                                <div class="inner">
+                                        <h3 if.bind="!totalProjects" class="fa fa-circle-o-notch fa-spin fa-2x"></h3>
+                                        <h3 if.bind="totalProjects">${totalProjects}</h3>
+                                    <p>Number of Project</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fa fa-folder"></i>
+                                </div>
+                                    <!-- <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a> -->
+                            </div>
+                            <div class="small-box bg-yellow">
+                                <div class="inner">
+                                    <h3 if.bind="!countAssignments" class="fa fa-circle-o-notch fa-spin fa-2x"></h3>
+                                    <h3 if.bind="countAssignments" >${countAssignments}</h3>
+                                    <p>Jumlah Assignment</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fa fa-tasks"></i>
+                                </div>    
+                            </div>
+                            <div class="small-box bg-green">
+                            <div class="inner">
+                            <h3 if.bind="!closedElapsed" class="fa fa-circle-o-notch fa-spin fa-2x"></h3>
+                            <h3 if.bind="closedElapsed">${closedElapsed}/${closedBudget}<sup style="font-size: 20px"></sup></h3>
+
+                            <p>Time Usage Rate</p>
+                            </div>
+                            <div class="icon">
+                            <i class="fa fa-hourglass"></i>
+                            </div>
+                            <!-- <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a> -->
+                            </div>
+
+                            <div class="small-box bg-red">
+                                <div class="inner">
+                                    <h3 if.bind="!countAssignments" class="fa fa-circle-o-notch fa-spin fa-2x"></h3>
+                                    <h3 if.bind="countAssignments">${countExceedDeadline}/${countAssignments}<sup style="font-size: 20px"></sup></h3>
+
+                                    <p>Assignment yang melewati deadline.</p>
+                                    </div>
+                                    <div class="icon">
+                                    <i class="fa fa-exclamation-triangle"></i>
+                                </div>
+                                <!-- <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a> -->
+                            </div>
+
+                            <div class="small-box bg-red">
+                            <div class="inner">
+                            <h3 if.bind="!exceededElapsed" class="fa fa-circle-o-notch fa-spin fa-2x"></h3>
+                            <h3 if.bind="exceededElapsed">${exceededElapsed}<sup style="font-size: 20px"></sup></h3>
+
+                            <p>Persentase Off-limit Elapsed Time.</p>
+                            </div>
+                            <div class="icon">
+                            <i class="fa fa-hourglass"></i>
+                            </div>
+                            <!-- <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a> -->
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <hr>
+                        </div>   
                     </div>     
                 </div>
             </div>
