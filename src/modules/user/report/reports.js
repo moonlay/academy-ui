@@ -32,21 +32,19 @@ export class reports{
 
         this.accountId;
         this.dataku = {};
-        this.dob;
+
+ 
+
     }
 
     async activate(params){
         var id = params.id;
         this.accountId = id;
-        this.data = await this.service.get(id, { filter: { include: "profile" } });
-        this.dob = this.GetFormattedDate(this.data.profile.dob);
-         
-    }  
+        this.data = await this.service.get(id, { filter: { include: "profile" } }); 
 
-    GetFormattedDate(date) {
-        var todayTime = new Date(date).toUTCString();
-        return todayTime ? moment(todayTime).format("DD-MMM-YYYY") : "-";
-    }
+        var data = {"accountId": this.accountId}
+        this.dataku = {datas: data};
+    }  
 
     async countTotalEfficiency(){
         this.countEfficiency = new RestService("core",`reports/account/${this.accountId}/assignments/efficiency`)

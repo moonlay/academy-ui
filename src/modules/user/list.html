@@ -2,7 +2,7 @@
   <required from="simple.css"></required>
 
   <section class="content-header">
-    <h1>Report</h1>
+    <h1>User </h1>
   </section>
   <section class="content">
     <div class="row">
@@ -19,6 +19,7 @@
               page-size="25"
               context.bind="contextMenu" 
               context-click.delegate="__contextMenuCallback($event)">
+              <button slot="toolbar" class="btn btn-success" click.delegate="create()">Create new Account</button>
             </au-table>
           </div>
         </div>

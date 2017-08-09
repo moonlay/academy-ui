@@ -3,11 +3,10 @@
         <!-- <div id="page-wrapper"> uncomment untuk navigasi di sebelah kiri -->
             <div class="wrapper" style="min-height: 916px;">
                 <section class="content-header">
-                <h1><b>
-                
+                   <div><h1> <b>
                     <small>Report</small>
-                    ${data.profile.firstname} ${data.profile.lastname}</b>
-                </h1>
+                    ${data.profile.firstname} ${data.profile.lastname}</b></h1>
+                <div>
                 <ol class="breadcrumb">
                     <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
                     <li class="active">Report</li>
@@ -15,32 +14,15 @@
                 <hr>
                 </section>
                 <section class="content">
-                    <div class="callout callout-info">
-                        <h4>Report !</h4>
-
-                        <p>Add the layout-boxed class to the body tag to get this layout. The boxed layout is helpful when working on
-                            large screens because it prevents the site from stretching very wide.
-                        </p>
-                    </div>
-                    <div class="box box-primary">
-                        <div class="box-header ui-sortable-handles">
-                            <a click.delegate="showAssignments()" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>                            
-                        </div>
-                        <div class="box-body">
-                            <compose
-                                model.bind="dataku"
-                                view-model="./assignments">
-                            </compose>
-                        </div>
-                        <div class="box-footer">
-                                Start creating your amazing application!
-                        </div>
-                    </div>
+                    <compose
+                        model.bind="dataku"
+                        view-model="./assignments">
+                    </compose>
                   
             </section>
             <section class="content-footer">
                 <div class="pull-right hidden-xs">
-                <b>Version</b> 2.4.0
+                <b>Version</b> 6.6.6
                 </div>
             </section>                     
         </div>  
