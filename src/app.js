@@ -1,6 +1,7 @@
 import "admin-lte"
 import "admin-lte/bootstrap/css/bootstrap.min.css"
 import "admin-lte/dist/css/AdminLTE.min.css"
+import "admin-lte/plugins/timepicker/bootstrap-timepicker.min.css"
 import "admin-lte/dist/css/skins/_all-skins.min.css"
 
 export class App {
