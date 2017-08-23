@@ -1,0 +1,11 @@
+<template>
+<h1 class="page-header">Time Record</h1>
+  <au-table 
+    data.bind="loader" 
+    columns.bind="columns"
+    sortable.bind="true" 
+    page-size="10"
+    context.bind="contextMenu" 
+    context-click.delegate="__contextMenuCallback($event)">
+  </au-table>
+  </template>

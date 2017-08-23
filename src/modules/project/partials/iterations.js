@@ -6,13 +6,14 @@ import parseLoopbackError from "../../../lib/loopback-error-parser";
 import createLoopbackFilterObject from "../../../lib/loopback-filter-factory";
 import moment from "moment";
 
-import { BacklogEditor } from '../dialogs/iteration-editor';
+import { BacklogEditor  } from '../dialogs/iteration-editor';
 import { TaskEditor } from '../dialogs/task-editor';
 
 @inject(Router, Dialog)
 export class Iterations {
     // @bindable data;
     // @bindable error;
+    
     __dateFormatter = function (value, row, index) {
         return value ? moment(value).format("DD-MMM-YYYY") : "-";
     }

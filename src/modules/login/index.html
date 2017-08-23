@@ -1,7 +1,8 @@
 <template>
   <div class="container login">
     <div class="row">
-      <div class="col-xs-12">
+      <div if.bind="!isAuthenticated" class="col-xs-12" >
+        
         <div class="panel panel-default panel-login">
           <div class="panel-body">
             <h2 class="form-title">Sign In</h2>
@@ -20,10 +21,15 @@
                 </label>
               </div>
               <button type="submit" class="btn btn-success btn-lg btn-block" click.delegate="login()">Sign in</button>
+          
             </form>
           </div>
         </div>
       </div>
-    </div>
-  </div>
+
+    </div if.bind="isAuthenticated">
+        <button type="submit" class="btn btn-success btn-lg btn-block" click.delegate="logout()">Logout</button>
+  </div>       
+  
+</div>
 </template>
