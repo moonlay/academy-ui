@@ -23,10 +23,8 @@ export class List {
 
     }
     getData() {
-        this.service.get({ filter: { include: 'task', where: { status: 'open' },  order: 'deadline ASC'}}).then(results => {
+        this.service.get({ filter: { include: 'task', where: { status: 'open' }, order: 'deadline ASC' } }).then(results => {
             this.data = results
-            console.log("this.data");   
-            console.log(this.data);
             var persentasiService = [];
             for (var item of this.data) {
                 var p = new RestService("core", `assignments/${item.id}/subtraction`);
@@ -40,21 +38,9 @@ export class List {
         })
         this.assignment.get().then(results => {
             this.item = results;
-            console.log("count:" + this.item.count)
         })
         this.account.get().then(results => {
             this.nama = results;
-        })
-
-
-        this.service.get({ filter: { include: 'task', where: { status: 'closed' } } }).then(results => {
-            this.dataClosed = results;
-            console.log(this.dataClosed);
-            var getTasks;
-            for (var item of this.dataClosed) {
-                var tasksService = new RestService("core", `/assignments/`);
-            }
-
         })
     }
 
@@ -77,7 +63,6 @@ export class List {
     __view(id) {
         this.router.navigateToRoute('view', { id: id });
     }
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     start(item) {
         if (this.currentItem)
             this.currentItem.isStart = false;
@@ -86,6 +71,7 @@ export class List {
         item.isStop = true;
         this.currentItem = item;
         this.waktu = item.elapsed;
+
 
         for (var i in this.data) {
             var isHas = false
@@ -96,22 +82,6 @@ export class List {
                 this.index = i;
                 break;
             }
-        }
-
-        this.data[this.index].waktu = 0.0;
-        this.interval2 = setInterval(() =>
-            this.data[this.index].waktu = parseInt(this.data[this.index].waktu) + 1,
-            1000);
-        if (this.data[this.index].elapsed == null) {
-            this.data[this.index].elapsed = 0;
-            this.interval = setInterval(() =>
-                this.data[this.index].elapsed = parseInt(this.data[this.index].elapsed) + 1,
-                1000);
-
-        } else {
-            this.interval = setInterval(() =>
-                this.data[this.index].elapsed = parseInt(this.data[this.index].elapsed) + 1,
-                1000);
         }
         var assignment =
             {
@@ -125,25 +95,29 @@ export class List {
                 "taskId": this.data[this.index].taskId,
                 "iterationId": this.data[this.index].iterationId,
                 "assignmentId": this.data[this.index].assignmentId,
-                "duration": this.data[this.index].duration,
-                "deadline": this.data[this.index].deadline
-
+                "duration": this.data[this.index].elapsed,
+                "deadline": this.data[this.index].deadline,
+                "waktu": this.data[this.index].waktu
             };
-        var timerRecord =
-            {
-                "date": new Date(),
-                "name": this.data[this.index].task.name,
-                "duration": this.data[this.index].duration,
-                "description": this.data[this.index].task.description,
-                "remark": this.data[this.index].task.remark,
-                "projectId": this.data[this.index].task.projectId,
-                "assignmentId": this.data[this.index].task.id,
-                "waktu": this.data[this.index].waktu,
-            }
-        localStorage.setItem('time', this.interval2);
-        localStorage.time;
-        //console.log(localStorage)
-    }
+        
+        this.interval2 = setInterval(() =>
+            this.data[this.index].waktu = parseInt(this.data[this.index].waktu) + 1,
+            1000);
+        if (this.data[this.index].elapsed == null) {
+            this.data[this.index].elapsed = 0;
+            this.interval = setInterval(() =>
+                this.data[this.index].elapsed = parseInt(this.data[this.index].elapsed) + 1,
+                1000);
+        } else {
+            this.interval = setInterval(() =>
+                this.data[this.index].elapsed = parseInt(this.data[this.index].elapsed) + 1,
+                1000);
+        };
+        setInterval(() =>
+            this.service.put(this.data[this.index].id, this.data[this.index], `assignments/${this.data[this.index].id}`),
+            1000);
+    };
+
     stop(item) {
         item.isStop = false;
         item.isStart = false;
@@ -166,7 +140,7 @@ export class List {
                 "deadline": this.data[this.index].deadline
 
             };
-        var timerRecord =
+            var timerRecord =
             {
                 "date": new Date(),
                 "name": this.data[this.index].task.name,
@@ -175,7 +149,7 @@ export class List {
                 "remark": this.data[this.index].task.remark,
                 "projectId": this.data[this.index].task.projectId,
                 "assignmentId": this.data[this.index].task.id,
-                "waktu": this.data[this.index].waktu,
+                "waktu": this.data[this.index].assignment.waktu
             }
 
         delete this.interval;
@@ -191,6 +165,7 @@ export class List {
         item.isStart = false;
         clearInterval(this.interval);
         clearInterval(this.interval2);
+        console.log(localStorage.waktu)
 
         var assignment =
             {
@@ -208,7 +183,7 @@ export class List {
                 "deadline": this.data[this.index].deadline
 
             };
-        var timerRecord =
+            var timerRecord =
             {
                 "date": new Date(),
                 "name": this.data[this.index].task.name,
@@ -217,7 +192,7 @@ export class List {
                 "remark": this.data[this.index].task.remark,
                 "projectId": this.data[this.index].task.projectId,
                 "assignmentId": this.data[this.index].task.id,
-                "waktu": this.data[this.index].waktu,
+                "waktu": this.data[this.index].assignment.waktu
             }
 
 
