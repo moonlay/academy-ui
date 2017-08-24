@@ -23,7 +23,10 @@
                                 <b>Jumlah Tugas</b> <a class="pull-right">${countAssignments}</a>
                                 </li>
                                 <li class="list-group-item">
-                                <b>Tugas yang Selesai/Belum</b> <a class="pull-right">${countClosed}/${countOpen}</a>
+                                <b>Tugas yang Selesai.</b> <a class="pull-right">${countClosed}</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Tugas yang Belum Selesai.</b> <a class="pull-right">${countOpen}</a>
                                 </li>
                             </ul>
                             </div>
@@ -34,7 +37,10 @@
                     <div class="col-sm-3">
                         <div class="small-box bg-green">
                             <div class="inner">
-                                <h3 if.bind="!totalElapsed" class="fa fa-circle-o-notch fa-spin fa-2x"></h3>
+                                <div if.bind="!totalElapsed" class="overlay">
+                                    <i class="fa fa-refresh fa-spin"></i>
+                                </div>
+                                 <h3 if.bind="!totalElapsed" class="fa fa-circle-o-notch fa-spin fa-2x"></h3> 
                                 <h3 if.bind="totalElapsed">${totalElapsed}/${totalBudget}<sup style="font-size: 20px"></sup></h3>
                                 <p>Rasio Penggunaan Waktu (jam)</p>
                             </div>
@@ -44,11 +50,13 @@
                                 <!-- <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a> -->
                         </div>
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-3">                       
                         <div class="small-box bg-blue">
+
                             <div class="inner">
-                                <h3 if.bind="!countAssignments" class="fa fa-circle-o-notch fa-spin fa-2x"></h3>
-                                <h3 if.bind="countAssignments">${efficiencyCount}<sup style="font-size: 20px"> %</sup></h3>
+                                
+                                 <h3 if.bind="!efficiencyCount" class="fa fa-circle-o-notch fa-spin fa-2x"></h3> 
+                                <h3 if.bind="efficiencyCount">${efficiencyCount}<sup style="font-size: 20px"> %</sup></h3>
                                 <p>Efisiensi penggunaan waktu.</p>
                             </div>
                             <div class="icon">
@@ -57,7 +65,7 @@
                                 <!-- <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a> -->
                         </div>
                     </div>
-                    <div class="col-sm-3">
+                    <div class="col-sm-3">                        
                         <div class="small-box bg-red">
                             <div class="inner">
                                 <h3 if.bind="!countAssignments" class="fa fa-circle-o-notch fa-spin fa-2x"></h3>
@@ -69,11 +77,18 @@
                             </div>
                                 <!-- <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a> -->
                         </div>
-                    </div>
+                    </div> 
                 </div>
                 <hr>
                 <div class="row">
                     <div class="col-sm-12">
+                        <div class="col-sm-12">
+                            <fieldset>
+                                <legend>Grafik penggunaan Waktu dan Efisiensi 
+                                </legend>
+                                    <canvas height="50" id="line-chart" chart="type: line; should-update: true; data.bind: SimpleLineData"></canvas>
+                            </fieldset>
+                        </div> 
                         <div class="col-sm-6">
                             <table>
                                 <tbody>
@@ -95,8 +110,9 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            
-                            <div class="box box-widget widget-user">
+                        </div>
+                        <div >
+                            <div if.bind="countElapsedByDate" class="box box-widget widget-user">
                             <!-- Add the bg color to the header using any of the bg-* classes -->
                                 <div class="box-footer">
                                     <div class="row">
@@ -110,7 +126,7 @@
                                         <!-- /.col -->
                                         <div class="col-sm-3 border-right">
                                         <div class="description-block">
-                                            <h5 class="description-header">${efficiencyByDateCount}</h5>
+                                            <h5 class="description-header">${efficiencyByDateCount} %</h5>
                                             <span class="description-text">Efisiensi penggunaan waktu.</span>
                                         </div>
                                         <!-- /.description-block -->
@@ -125,6 +141,7 @@
                                         </div>
                                         <!-- /.col -->
                                         <div class="col-sm-3">
+                                            
                                         <div class="description-block">
                                             <h5 class="description-header">${countClosedAssignmentsByDate}</h5>
                                             <span class="description-text">Tugas selesai.</span>
@@ -137,13 +154,6 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="col-sm-6">
-                            <fieldset>
-                                <legend>Line Graph via Attribute</legend>
-                                    <canvas id="line-chart" chart="type: line; should-update: false; data.bind: SimpleLineData"></canvas>
-                                <p>Changing the data wont change this graph as it is not update-able</p>
-                            </fieldset>
-                        </div> -->
                     </div>
                 </div>
                 <div class="row">
@@ -159,7 +169,7 @@
                     ></datatable> -->
                         <div class="col-xs-12">
                             <au-table
-                                 
+                                search.bind = "false"
                                 view-model.ref="assignmentTable"
                                 data.bind="assignmentLoader"
                                 columns.bind="assignmentsColumns"
