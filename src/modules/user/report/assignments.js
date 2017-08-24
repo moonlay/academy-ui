@@ -86,6 +86,9 @@ export class assignments {
                 this.closedAssignmentsService = new RestService("core", `reports/account/${model.datas.accountId}/assignments/open/count`)
                 this.countOpen = await this.closedAssignmentsService.get();
 
+                //pengambilan data setiap bulan
+                // this.getChartDataService = new RestService("core",`reports/account/${model.datas.accountId}/data/this_months`);
+                //pengambilan data setiap 6 bulan
                 this.getChartDataService = new RestService("core",`reports/account/${model.datas.accountId}/${new Date()}/data/sixmonths`);
                 this.chartData = await this.getChartDataService.get();
 
@@ -202,9 +205,13 @@ export class assignments {
 
         this.searchFlag = 0;
     }
-        
+
     resetLineData(months) {
-        if(this.chartData){months=this.chartData.months}
+        if(this.chartData){
+            // months=this.chartData.days;
+            months=this.chartData.months
+        }
+        
         console.log(this.chartData.value.budget)
         console.log(this.chartData.value.elapsed)
         
