@@ -7,7 +7,7 @@ import moment from "moment";
 @inject(Router)
 export class List {
   constructor(router) {
-    this.service = new RestService("core", "tasks");
+    this.service = new RestService("core", `accounts/${localStorage.userId}/tasks`);
     this.router = router;
     this.getData();
 
@@ -15,7 +15,6 @@ export class List {
   __dateFormatter = function (value, row, index) {
     return value ? moment(value).format("DD-MMM-YYYY") : "-";
   }
-
 
   async bind(context){
     this.context = context;

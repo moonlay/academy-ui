@@ -37,7 +37,6 @@ export class List {
     return Promise
       .all([this.service.count(loopbackFilter.filter), this.service.list(loopbackFilter)])
       .then(results => {
-        debugger;
         var count = results[0].count;
         var data = results[1];
         return {
