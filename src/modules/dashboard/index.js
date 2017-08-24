@@ -5,6 +5,8 @@ export class Index {
         config.map([
             { route: '/', name: 'list', moduleId: './list', nav: true, title: 'Dashboard List' },
             { route: '/view/:id', name: 'view', moduleId: './view', title: 'View Project' },
+            { route: '/create', name: 'create', moduleId: './project', title: 'Create Project' },
+        
         ])
         
     }

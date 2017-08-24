@@ -99,9 +99,8 @@ export class List {
                 "assignmentId": this.data[this.index].assignmentId,
                 "duration": this.data[this.index].elapsed,
                 "deadline": this.data[this.index].deadline,
-                "waktu": this.data[this.index].waktu
             };
-        
+        this.data[this.index].waktu=0.0;
         this.interval2 = setInterval(() =>
             this.data[this.index].waktu = parseInt(this.data[this.index].waktu) + 1,
             1000);

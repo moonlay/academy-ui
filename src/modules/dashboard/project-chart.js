@@ -7,54 +7,62 @@ import moment from "moment";
 
 @inject(Router)
 export class ProjectChart {
-    projects = [];
     info = {};
+    
     constructor(router) {
         this.router = router;
-        var serviceProject = new RestService("core", "projects");
-        var serviceTask = new RestService("core", "tasks/dueToDay");
-        this.getProjects(serviceProject);
-        this.getDueToday(serviceTask);
-        this.getInfo();
+        this.setService();
+        this.getProject();
+        this.assignmentToday();
+    }
+
+    setService() {
+        this.serviceProjects =  new RestService("core", "projects");
+        this.serviceAssignment =  new RestService("core", "Assignment");
+        this.servicebacklogs =  new RestService("core", "backlogs");
+        this.serviceTask =  new RestService("core", "tasks");
+    }
+
+    assignmentToday() {
+        var startDate = (new Date()).setHours(0,0,0,0);
+        var endDate = (new Date()).setHours(23, 59, 59);
+        var isoStartDate = new Date(startDate).toISOString();
+        var isoEndDate = new Date(endDate).toISOString();
+        console.log(isoStartDate);
+        console.log(isoEndDate);
+        this.serviceTask.list({filter : {where: {close: {between: [isoStartDate, isoEndDate]}}}}).then(results => {
+            var tasks =  results;
+            this.tasksToDay = tasks;
+        })
+    }
+
+    async getProject() {
+        this.projects = await this.serviceProjects.get();
+        this.info.totBacklogs = (await this.servicebacklogs.count()).count;
+        this.info.closedBacklogs = (await this.servicebacklogs.count({where: {status: 'closed'}})).count;
+        this.info.totTasks = (await this.serviceTask.count()).count;
+        this.info.closedTasks = (await this.serviceTask.count({where: {status: 'closed'}})).count;
         
-    }
-
-    getProjects(serviceProject) {
-        serviceProject.get()
-        .then(results => {
-            for(var item of results) {
-                var serviceDueToDay = new RestService("core", `/Projects/${item.id}/projectWithProgress`);
-                serviceDueToDay.get().then(results => {
-                    this.projects.push(results);
-                })
+        console.log(this.info);
+        var progress = [];
+        for(var item of this.projects) {
+            var progressService = new RestService("core", `projects/${item.id}/progress`);
+            progress.push(progressService.get());
+        }
+        
+        Promise.all(progress).then(results => {
+            for(var index in results) {
+                this.projects[index].progress = results[index].progress;    
             }
-        })
-        .catch(err => {
-            this.serviceProjectError = err;
-        });
-    }
-
-    async getInfo() {
-        var servicebacklogs =  new RestService("core", "backlogs");
-        var serviceTask =  new RestService("core", "tasks");
-        this.info.totBacklogs = (await servicebacklogs.count()).count;
-        this.info.closedBacklogs = (await servicebacklogs.count({where: {status: 'closed'}})).count;
-        this.info.totTasks = (await serviceTask.count()).count;
-        this.info.closedTasks = (await serviceTask.count({where: {status: 'closed'}})).count;
-    }
-
-    getDueToday(serviceTask) {
-        serviceTask.get()
-        .then(results => {
-            this.tasksToDay = results;
-        })
-        .catch(err => {
-            this.serviceTaskError = err;
         })
     }
 
     __viewBacklog(id) {
         this.router.navigateToRoute('view', { id: id });
     }
+    
+    create() {
+    this.router.navigateToRoute('create');
+  }
     
 }

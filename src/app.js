@@ -22,7 +22,6 @@ export class App {
       { route: 'developer', name: 'developer', moduleId: './modules/developer/index', nav: true, title: 'Developer' },
       { route: 'timerecord',  name: 'timerecord', moduleId: './modules/timerecord/index', nav: true, title: 'Timerecord' }       
     ]);
-
     this.router = router;
   }
 }
