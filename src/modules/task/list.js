@@ -7,12 +7,42 @@ import moment from "moment";
 @inject(Router)
 export class List {
   constructor(router) {
-    this.service = new RestService("core", "tasks");
+    this.service = new RestService("core", `accounts/${localStorage.userId}/tasks`);
     this.router = router;
+    this.getData();
+
   }
   __dateFormatter = function (value, row, index) {
     return value ? moment(value).format("DD-MMM-YYYY") : "-";
   }
+
+  async bind(context){
+    this.context = context;
+    this.data = this.context.data;
+    this.error = this.context.error;
+  }
+
+  getData(){
+      this.service.get().then(results => {
+        this.data = results;
+        var actualService = [];
+        for(var item of this.data){
+            var a = new RestService("core", `tasks/${item.id}/actual`);
+            actualService.push(a.get());
+          }
+          Promise.all(actualService).then(result => {
+            for (var index in this.data){
+                console.log("result");
+                console.log(result[index].Actual);
+                this.data[index].actual = result[index].Actual;
+
+              }
+              console.log(this.data);
+          })
+      })
+  }
+    
+
   columns = [
     "code",
     "name",
@@ -32,7 +62,8 @@ export class List {
     },
     "remark",
     "status"];
-  contextMenu = ["Detail"];
+
+  contextMenu = ["Detail","Assignment(s)"];
 
   loader = (info) => {
     var fields = this.columns.map(col => {
@@ -59,6 +90,10 @@ export class List {
     this.router.navigateToRoute('view', { id: id });
   }
 
+  viewEmployee(id){
+    this.router.navigateToRoute('employee',{ id: id });
+  }
+
   create() {
     this.router.navigateToRoute('create');
   }
@@ -70,6 +105,9 @@ export class List {
       case "Detail":
         this.__view(data.id);
         break;
+      case "Assignment(s)":
+        this.viewEmployee(data.id);
+        break;  
     }
   }
 }

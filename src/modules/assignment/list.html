@@ -1,13 +1,33 @@
 <template>
   <h1 class="page-header">Assignments</h1>
-  <au-table 
-    data.bind="loader" 
-    columns.bind="columns"
-    sortable.bind="true" 
-    page-size="25"
-    context.bind="contextMenu" 
-    context-click.delegate="__contextMenuCallback($event)">
-    
+  <table class="table table-bordered table-hover">
     <button slot="toolbar" class="btn btn-success" click.delegate="create()">Create new Assignment</button>
-  </au-table>
+    <hr/>
+    <tr>
+      <th><center>Date</center></th>
+      <th><center>Remark</center></th>
+
+      <th><center>Budget (jam)</center></th>
+      <th><center>Elapsed (detik)</center></th>
+      <th><center>Deadline</center></th>
+      <th><center>Status</center></th>
+      <th><center>Id</center></th>
+      <th><center>Account Id</center></th>
+      <th><center>Task Id</center></th>
+      <th><center>Iteration Id</center></th>
+    </tr>
+    <tr  
+    repeat.for="item of data">
+      <td>${item.date}</td>
+      <td>${item.remark}</td>
+      <td>${item.budget}</td>
+      <td>${item.elapsed}</td>
+      <td>${item.deadline}</td>
+      <td>${item.status}</td>
+      <td>${item.id}</td>
+      <td>${item.accountId}</td>
+      <td>${item.taskId}</td>
+      <td>${item.iterationId}</td>
+    </tr>
+  </table>
 </template>

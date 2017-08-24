@@ -1,0 +1,29 @@
+<template>   
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h2 class="page-header">Create New Project</small></h2>
+            </div>
+            <div class="col-lg-12">
+        
+            <au-input-form title.bind="title" with.bind="context">
+            <au-textbox label="Code" value.bind="data.code" error.bind="error.code" read-only.bind="readOnly || isEdit"> </au-textbox>
+            <au-textbox label="Name" value.bind="data.name" error.bind="error.name" read-only.bind="readOnly"></au-textbox>
+            <au-multiline label="Description" value.bind="data.description" error.bind="error.description" read-only.bind="readOnly"></au-multiline>
+            <div class="btn-group pull-right">
+                <button class="btn btn-default au-target" click.delegate="cancelCallback($event)" au-target-id="24">Cancel</button><!--anchor-->
+                <button class="btn btn-success au-target" click.delegate="saveCallback($event)" au-target-id="30">Save</button><!--anchor-->
+            </div>
+            </au-input-form>
+            </div>
+        
+        </div>
+         <footer>
+            <p class="pull-right">
+                <a href="#/dashboard"> Back to top </a>
+            </p>
+            <p>&copy; 2017 Moonlay Technologies</p>
+        </footer>
+    </div>
+    
+</template>

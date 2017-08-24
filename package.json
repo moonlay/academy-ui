@@ -64,13 +64,21 @@
   "homepage": "https://github.com/aurelia/skeleton-navigation#readme",
   "aurelia": {
     "build": {
-      "resources": []
+      "resources": [
+        "aurelia-chart/elements/chart-element",
+        "aurelia-chart/attributes/chart-attribute"
+      ]
     }
   },
   "dependencies": {
+    "admin-lte": "^2.3.11",
+    "au-table": "^0.1.13",
     "aurelia-api": "^3.1.1",
     "aurelia-authentication": "^3.2.0",
     "aurelia-bootstrapper-webpack": "^1.1.0",
+    "aurelia-chart": "^0.2.7",
+    "aurelia-charts": "^1.0.0",
+    "aurelia-datatable": "^0.8.1",
     "aurelia-dialog": "^1.0.0-beta.3.0.1",
     "aurelia-event-aggregator": "^1.0.0",
     "aurelia-fetch-client": "^1.0.1",
@@ -78,6 +86,7 @@
     "aurelia-history-browser": "^1.0.0",
     "aurelia-loader-webpack": "^1.0.3",
     "aurelia-logging-console": "^1.0.0",
+    "aurelia-pager": "^0.2.0",
     "aurelia-pal-browser": "^1.0.0",
     "aurelia-polyfills": "^1.1.1",
     "aurelia-route-recognizer": "^1.1.0",

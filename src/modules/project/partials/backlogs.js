@@ -15,7 +15,7 @@ export class Backlogs {
   // @bindable data;
   // @bindable error;
   __dateFormatter = function (value, row, index) {
-    return value ? moment(value).format("DD-MMM-YYYY") : "-";
+    return value ? moment(value).format("DD-MM-YYYY") : "-";
   }
   @bindable activeBacklog;
   @bindable activeTask;
@@ -52,7 +52,7 @@ export class Backlogs {
     // }
   ];
 
-  backlogContextMenu = ["Edit"];
+  backlogContextMenu = ["Edit","Check Employee"];
   __backlogContextMenuCallback(event) {
     var arg = event.detail;
     var data = arg.data;
@@ -101,6 +101,7 @@ export class Backlogs {
   };
 
   taskColumns = [
+    "type",
     "code",
     "name",
     // {
@@ -130,11 +131,11 @@ export class Backlogs {
         break;
     }
   }
-  __taskRowClickCallback(event) {
+  
+__taskRowClickCallback(event) {
     var data = event.detail;
     this.activeTask = data;
   }
-
   __taskCreateCallback() {
     this.__taskShowEditorDialog({ projectId: this.projectId, backlogId: this.activeBacklog.id })
   }

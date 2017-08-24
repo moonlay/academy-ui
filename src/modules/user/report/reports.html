@@ -1,0 +1,29 @@
+<template>
+    <div class="wrapper">
+        <!-- <div id="page-wrapper"> uncomment untuk navigasi di sebelah kiri -->
+            <div class="wrapper" style="min-height: 916px;">
+                <section class="content-header">
+                   <div><h1> <b>
+                    <small>Report</small>
+                    ${data.profile.firstname} ${data.profile.lastname}</b></h1>
+                <div>
+                <ol class="breadcrumb">
+                    <li><a href="#"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                    <li class="active">Report</li>
+                </ol>
+                <hr>
+                </section>
+                <section class="content">
+                    <compose
+                        model.bind="dataku"
+                        view-model="./assignments">
+                    </compose>
+                  
+            </section>
+            <section class="content-footer">
+                <div class="pull-right hidden-xs">
+                <b>Version</b> 6.6.6
+                </div>
+            </section>                     
+        </div>  
+</template>

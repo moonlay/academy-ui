@@ -1,3 +1,9 @@
+import "admin-lte"
+import "admin-lte/bootstrap/css/bootstrap.min.css"
+import "admin-lte/dist/css/AdminLTE.min.css"
+import "admin-lte/plugins/timepicker/bootstrap-timepicker.min.css"
+import "admin-lte/dist/css/skins/_all-skins.min.css"
+
 export class App {
   configureRouter(config, router) {
     config.title = 'Aurelia';
@@ -11,9 +17,11 @@ export class App {
       { route: 'backlogs',  name: 'backlogs', moduleId: './modules/backlog/index', nav: true, title: 'Backlog' },
       { route: 'iterations',  name: 'iterations', moduleId: './modules/iteration/index', nav: true, title: 'Iteration' },
       { route: 'assignments',  name: 'assignments', moduleId: './modules/assignment/index', nav: true, title: 'Assignment' },
-      { route: 'tasks',  name: 'tasks', moduleId: './modules/task/index', nav: true, title: 'Task' }
+      { route: 'tasks',  name: 'tasks', moduleId: './modules/task/index', nav: true, title: 'Task' },
+      { route: 'dashboard',  name: 'dashboard', moduleId: './modules/dashboard/index', nav: true, title: 'Dashboard' },
+      { route: 'developer', name: 'developer', moduleId: './modules/developer/index', nav: true, title: 'Developer' },
+      { route: 'timerecord',  name: 'timerecord', moduleId: './modules/timerecord/index', nav: true, title: 'Timerecord' }       
     ]);
-
     this.router = router;
   }
 }

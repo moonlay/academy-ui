@@ -5,7 +5,8 @@
     <!--<select value.bind="value2" class="form-control" matcher.bind="_matcher" change.delegate="changeCallback2($event)">
             <option repeat.for="item of objects" model.bind="item">${item | dropdownText : "name"}</option>
           </select>-->
-    <au-dropdown value.bind="value" label.bind="label" error.bind="error" change.delegate="changeCallback($event)" options.bind="options"
+    <au-dropdown value.bind="value" label.bind="label" error.bind="error" change.delegate="changeCallback($event)" 
+    options.bind="options"
       loader.bind="loader" items.bind="objects" key="code" text="name"></au-dropdown>
 
     <au-dropdown value.bind="svalue" label.bind="label" error.bind="error" change.delegate="changeCallback($event)" options.bind="options"

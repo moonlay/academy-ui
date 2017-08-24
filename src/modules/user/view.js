@@ -11,7 +11,7 @@ export class View {
 
   constructor(router, dialog) {
     this.service = new RestService("core", "accounts");
-    this.router = router;
+    this.router = router; 
     this.dialog = dialog;
   }
 

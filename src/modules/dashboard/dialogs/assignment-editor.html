@@ -1,0 +1,25 @@
+<template>
+    <ai-dialog style="width:500px;">
+        <ai-dialog-header>${isEdit ? "edit assignment" : "add new assignment"}</ai-dialog-header>
+
+        <ai-dialog-body>
+            <form class="form-horizontal">
+                <au-autocomplete value.bind="selectedIteration" label="iteration" read-only.bind="readOnly || isEdit" error.bind="error.iterationId"
+                    loader.bind="iterationLoader" key="id" text.bind="iterationFormatter">
+                </au-autocomplete>
+
+                <au-autocomplete value.bind="selectedAccount" label="account" read-only.bind="readOnly || isEdit" error.bind="error.accountId"
+                    loader.bind="accountLoader" key="id" text="username"></au-autocomplete>
+
+                <au-datepicker label="date" value.bind="data.date" error.bind="error.date" read-only.bind="readOnly"></au-datepicker>
+                <au-multiline label="remark" value.bind="data.remark" error.bind="error.remark" read-only.bind="readOnly"></au-multiline>
+                <au-dropdown label="status" value.bind="data.status" items.bind="assignmentStatusOptions" read-only.bind="readOnly"></au-dropdown>
+            </form>
+        </ai-dialog-body>
+
+        <ai-dialog-footer>
+            <button class="btn btn-default" click.delegate="dialogController.cancel()">Cancel</button>
+            <button class="btn btn-success" click.delegate="saveCallback()">Ok</button>
+        </ai-dialog-footer>
+    </ai-dialog>
+</template>

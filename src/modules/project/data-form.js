@@ -12,8 +12,8 @@ export class DataForm {
 
     this.cancelCallback = this.context.cancelCallback;
     this.deleteCallback = this.context.deleteCallback;
-    this.editCallback = this.context.editCallback;
-    this.saveCallback = this.context.saveCallback;
+    this.editCallback   = this.context.editCallback;
+    this.saveCallback   = this.context.saveCallback;
   }
 
   @computedFrom("data.id")
