@@ -8,17 +8,16 @@ import moment from "moment";
 import { Assignments } from './assignments'
 
 
+
 @inject(Router, Dialog)
 export class reports{
-
     @bindable totalProjects;
 
     @bindable totalClosedAssignment;
     @bindable totalOpenAssignment;
 
     @bindable dataku;
-
-
+    @bindable dob;
 
     constructor(router, dialog) {
         this.service = new RestService("core", "accounts");    
@@ -33,18 +32,18 @@ export class reports{
 
         this.accountId;
         this.dataku = {};
+
+ 
+
     }
 
     async activate(params){
         var id = params.id;
         this.accountId = id;
-        this.data = await this.service.get(id, { filter: { include: "profile" } });
+        this.data = await this.service.get(id, { filter: { include: "profile" } }); 
 
-        this.countTotalEfficiency();
-        this.countClosedAssignment();
-        this.countOpenAssignment();
-        this.countProjects();
-         
+        var data = {"accountId": this.accountId}
+        this.dataku = {datas: data};
     }  
 
     async countTotalEfficiency(){
@@ -67,15 +66,9 @@ export class reports{
         this.totalProjects = await this.countProject.get();
     }
 
-  showAssignments() {
-    var data = {"accountId": this.accountId}
-    this.dataku = {datas: data};
-    console.log(this.dataku);
-  }
-
-  showpProjects() {
-    var data = {"accountId": this.accountId}
-    this.dataku = {datas: data};
-    console.log(this.dataku);
-  }
+    showAssignments() {
+        var data = {"accountId": this.accountId}
+        this.dataku = {datas: data};
+        console.log(this.dataku);
+    }
 }

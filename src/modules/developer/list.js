@@ -1,3 +1,4 @@
+
 import { bindable, inject } from "aurelia-framework";
 import { Router } from 'aurelia-router';
 import { RestService } from "../../lib/rest-service";
@@ -63,6 +64,7 @@ export class List {
     __view(id) {
         this.router.navigateToRoute('view', { id: id });
     }
+
     start(item) {
         if (this.currentItem)
             this.currentItem.isStart = false;
@@ -71,8 +73,7 @@ export class List {
         item.isStop = true;
         this.currentItem = item;
         this.waktu = item.elapsed;
-
-
+      
         for (var i in this.data) {
             var isHas = false
             if (this.data[i].id == item.id) {
@@ -83,6 +84,7 @@ export class List {
                 break;
             }
         }
+
         var assignment =
             {
                 "elapsed": this.data[this.index].elapsed,
@@ -126,6 +128,7 @@ export class List {
         this.data[this.index].status = 'closed';
         var assignment =
             {
+
                 "elapsed": this.data[this.index].elapsed,
                 "date": this.data[this.index].date,
                 "budget": this.data[this.index].budget,
@@ -194,7 +197,6 @@ export class List {
                 "assignmentId": this.data[this.index].task.id,
                 "waktu": this.data[this.index].assignment.waktu
             }
-
 
         delete this.interval;
         this.service.post(timerRecord, `assignments/${this.data[this.index].id}/timerecords`)

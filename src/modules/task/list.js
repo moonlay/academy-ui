@@ -42,6 +42,27 @@ export class List {
       })
   }
     
+
+  columns = [
+    "code",
+    "name",
+    {
+      field: "date", title: "date",
+      formatter: this.__dateFormatter
+    },
+    "budget",
+    "actual",
+    {
+      field: "open", title: "open",
+      formatter: this.__dateFormatter
+    },
+    {
+      field: "close", title: "close",
+      formatter: this.__dateFormatter
+    },
+    "remark",
+    "status"];
+
   contextMenu = ["Detail","Assignment(s)"];
 
   loader = (info) => {

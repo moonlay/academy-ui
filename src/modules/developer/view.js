@@ -7,7 +7,6 @@ import parseLoopbackError from "../../lib/loopback-error-parser";
 @inject(Router, Dialog)
 export class View {
 
-
   constructor(router, dialog) {
     this.service = new RestService("core", "assignments");
     this.router = router;

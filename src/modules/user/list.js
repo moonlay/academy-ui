@@ -34,7 +34,8 @@ export class List {
         {
             field: "profile.gender", title: "gender"
         }];
-    contextMenu = ["Detail","Projects","Report"];
+
+    contextMenu = ["Detail","Report"];
 
     loader = (info) => {
         var fields = this.columns.map(col => {
@@ -66,9 +67,6 @@ export class List {
         this.router.navigateToRoute('report', { id: id });
     }
 
-    __viewProjects(id){
-        this.router.navigateToRoute('project', { id: id });
-    }
 
     create() {
         this.router.navigateToRoute('create');
@@ -81,9 +79,6 @@ export class List {
             case "Detail":
                 this.__view(data.id);
                 break;
-            case "Projects":
-                this.__viewProjects(data.id);
-                break;  
             case "Report":
                 this.__viewReport(data.id);
                 break;    

@@ -26,7 +26,8 @@ export class List {
 
   }
 
-  getData() {
+
+getData() {
     this.service.get().then(results => {
       this.data = results;
       var elapsedService = [];
