@@ -1,6 +1,5 @@
 import { RestService } from "../../../lib/rest-service";
 import { Tasks } from './tasks';
-import "../../../../styles/dist/css/sb-admin-2.min.css";
 export class Backlogs {
   datas = [];
   tasks = {};

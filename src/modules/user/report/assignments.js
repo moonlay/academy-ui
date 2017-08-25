@@ -94,7 +94,7 @@ export class assignments {
 
                 //pengambilan data setiap bulan
                 // this.getWorkHoursService = new RestService("",`reports/account/${model.datas.accountId}/workHours/this_months`)
-                
+
                 this.getChartDataService = new RestService("core",`reports/account/${model.datas.accountId}/data/this_months`);
 
                 //pengambilan data setiap 6 bulan
@@ -103,11 +103,7 @@ export class assignments {
                 this.chartData = await this.getChartDataService.get();
 
                 // this.workHours = await this.getWorkHoursService.get();
-
-                this.resetLineData();
-                
-                // this.projectService = new RestService("core",`reports/account/${model.datas.accountId}/project`)
-                // this.projectData = await this.projectService.get();        
+                this.resetLineData();    
                 }  
     }
 
@@ -261,16 +257,6 @@ export class assignments {
                     pointHighlightStroke: "rgba(255,160,122,1)",
                     data: this.chartData.totalAssignment
                 },
-                // {
-                //     label: "Efisiensi",
-                //     backgroundColor: "rgba(0,0,255,1)",
-                //     borderColor: "rgba(0,0,255,1)",
-                //     pointColor: "rgba(0,0,255,1)",
-                //     pointStrokeColor: "#000",
-                //     pointHighlightFill: "blue",
-                //     pointHighlightStroke: "rgba(0,0,255,1)",
-                //     data: this.chartData.value.efficiency
-                // }
             ]
         };
     }

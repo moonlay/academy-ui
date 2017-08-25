@@ -1,0 +1,79 @@
+<template>
+    <div class="box-body no-padding">
+    <div id="accordion" class="box-group box-group-progress">
+        <div class="panel box box-primary">
+            <div class="progress-group">
+                <div class="box-header with-border">
+                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne">
+                        <span class="progress-title">Backlog / Task <span class="label label-info pull-right">Open</span></span>
+                        <span class="progress-description">
+                            <span class="text-red"><b>Deadline : </b> 14 Agustus 2017 </span>
+                            <span class="pull-right"><b>123</b>/330 (40%)</span>
+                        </span>
+                        <div class="progress sm progress-margin">
+                            <div class="progress-bar progress-bar-aqua" style="width: 34%"></div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div id="collapseOne" class="panel-collapse collapse">
+                <div class="box-body">
+                    <dl>
+                        <dt>Description lists</dt>
+                        <dd>A description list is perfect for defining terms.</dd>
+                        <dt>Euismod</dt>
+                        <dd>Vestibulum id ligula porta felis euismod semper eget lacinia odio sem nec elit.</dd>
+                    </dl>
+                </div>
+                <div class="box-footer no-padding">
+                    <ul class="nav nav-pills nav-stacked">
+                        <li><a href="#">View Tasks<span class="pull-right text-red"><i class="fa fa-angle-right"></i></span></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <h5 class="text-light-blue">
+            <a data-toggle="collapse" data-parent="#accordion" href="#closed">
+                View Closed Backlogs
+                <span class="label label-info">15</span>
+            </a>
+        </h5>
+        <hr />
+        <div id="closed" class="panel-collapse collapse">
+            <div class="panel box">
+                <div class="progress-group">
+                    <div class="box-header with-border">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+                        <span class="progress-title text-muted">Backlog / Task <span class="label label-success pull-right">Closed</span></span>
+                        
+                        <span class="progress-description">
+                            <span class="text-muted"><b>Deadline : </b> 14 Agustus 2017 </span>
+                            <span class="pull-right"><b>123</b>/330 (100%)</span>
+                        </span>
+                        <div class="progress sm progress-margin">
+                            <div class="progress-bar progress-bar-green" style="width: 100%"></div>
+                        </div>
+                    </a>
+                    </div>
+                </div>
+                <div id="collapse1" class="panel-collapse collapse">
+                    <div class="box-body">
+                        <dl>
+                            <dt>Description lists</dt>
+                            <dd>A description list is perfect for defining terms.</dd>
+                            <dt>Euismod</dt>
+                            <dd>Vestibulum id ligula porta felis euismod semper eget lacinia odio sem nec elit.</dd>
+                        </dl>
+                    </div>
+                    <div class="box-footer no-padding">
+                        <ul class="nav nav-pills nav-stacked">
+                            <li><a href="#">View Tasks<span class="pull-right text-red"><i class="fa fa-angle-right"></i></span></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</template>

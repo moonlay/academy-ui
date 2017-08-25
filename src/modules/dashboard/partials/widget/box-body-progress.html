@@ -1,0 +1,75 @@
+<template>
+    <div class="box-body no-padding">
+        <div id="${title}1" class="box-group box-group-progress">
+            <div class="panel box box-primary" repeat.for="item of progressWork">
+                <div class="progress-group">
+                    <div class="box-header with-border">
+                        <a data-toggle="collapse" data-parent="#${title}1" href="#${item.id}">
+                            <span class="progress-title">${item.name} <span if.bind="item.status" class="label label-success pull-right" >${item.status}</span> <span if.bind="item.type" class="label label-warning pull-right">${item.type}</span></span>
+                            <span class="progress-description">
+                                <span class="text-red"><b>Deadline : </b> ${convertDate(item.deadline)} </span>
+                                <span class="pull-right" if.bind="item.progress"><b>${item.complete}</b>/${item.total} (${item.progress} %)</span>
+                            </span>
+                            <div class="progress sm progress-margin" if.bind="item.progress">
+                                <div class="progress-bar progress-bar-aqua" style="width: ${item.progress}%"></div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div id="${item.id}" class="panel-collapse collapse">
+                    <div class="box-body">
+                        <dl>
+                            <dt>Description</dt>
+                            <dd>${item.description}</dd>
+                        </dl>
+                    </div>
+                    <div class="box-footer no-padding">
+                        <ul class="nav nav-pills nav-stacked">
+                                <li><a href="javascript:void(0)" click.delegate="onClick(item.id)">${footerButton.title}<span class="pull-right text-red"><i class="fa fa-angle-right"></i></span></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <h5 class="text-light-blue">
+                <a data-toggle="collapse" data-parent="#accordion1" href="#${title}">
+                    View Completed ${title}
+                    <span class="label label-info">${completeWork.length}</span>
+                </a>
+            </h5>
+            <hr />
+            <div id="${title}" class="panel-collapse collapse" >
+                <div class="panel box" repeat.for="item of completeWork">
+                    <div class="progress-group">
+                        <div class="box-header with-border">
+                            <a data-toggle="collapse" data-parent="#accordion1" href="#${item.id}">
+                            <span class="progress-title text-muted">${item.name} <span if.bind="item.status" class="label label-success pull-right" >${item.status}</span> <span if.bind="item.type" class="label label-warning pull-right">${item.type}</span></span>
+                            
+                            <span class="progress-description">
+                                <span class="text-muted"><b>Deadline : </b> ${convertDate(item.deadline)} </span>
+                                <span class="pull-right" if.bind="item.progress"><b>${item.complete}</b>/${item.total} (${item.progress} %)</span>
+                            </span>
+                            <div class="progress sm progress-margin" if.bind="item.progress">
+                                <div class="progress-bar progress-bar-green" style="width: ${item.progress}%"></div>
+                            </div>
+                        </a>
+                        </div>
+                    </div>
+                    <div id="${item.id}" class="panel-collapse collapse">
+                        <div class="box-body">
+                            <dl>
+                                <dt>Description</dt>
+                                <dd>${item.description}</dd>
+                            </dl>
+                        </div>
+                        <div class="box-footer no-padding">
+                            <ul class="nav nav-pills nav-stacked">
+                                    <li><a href="javascript:void(0)" click.delegate="onClick(item.id)">${footerButton.title}<span class="pull-right text-red"><i class="fa fa-angle-right"></i></span></a></li>
+                                </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
