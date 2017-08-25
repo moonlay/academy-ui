@@ -1,4 +1,4 @@
-import { inject } from "aurelia-framework";
+import { Aurelia, inject } from "aurelia-framework";
 import { Router } from 'aurelia-router';
 import { RestService } from "../../lib/rest-service";
 import createLoopbackFilterObject from "../../lib/loopback-filter-factory";
@@ -7,9 +7,17 @@ import moment from "moment";
 @inject(Router)
 export class List {
   constructor(router) {
-    this.service = new RestService("core", "assignments");
+    this.service = new RestService("core", `accounts/${localStorage.userId}/assignments`);
+    // this.accountService = new RestService("core", `accounts/${item.id}/assignments`);
     this.router = router;
     this.getData();
+    console.log(localStorage.userId);
+    // console.log(response);
+    // console.log("success logged " + response);
+
+  //  this.authService = authService;
+    // console.log(this.authService);
+    // console.log(this.authService.authentication.accessToken);
   }
 
   async bind(context) {
@@ -18,13 +26,14 @@ export class List {
 
   }
 
+
 getData() {
     this.service.get().then(results => {
       this.data = results;
       var elapsedService = [];
       for (var item of this.data) {
         var e = new RestService("core", `assignments/${item.id}/elapsed`);
-        elapsedService.push(a.get());
+        elapsedService.push(e.get());
       }
       Promise.all(elapsedService).then(result => {
         for (var index in this.data) {

@@ -1,3 +1,4 @@
+
 import 'admin-lte';
 import 'admin-lte/bootstrap/css/bootstrap.min.css';
 import 'admin-lte/dist/css/AdminLTE.min.css';
@@ -21,7 +22,6 @@ export class App {
       { route: 'developer', name: 'developer', moduleId: './modules/developer/index', nav: true, title: 'Developer' },
       { route: 'timerecord',  name: 'timerecord', moduleId: './modules/timerecord/index', nav: true, title: 'Timerecord' }       
     ]);
-
     this.router = router;
   }
 }
