@@ -93,12 +93,16 @@ export class assignments {
                 this.countOpen = await this.closedAssignmentsService.get();
 
                 //pengambilan data setiap bulan
-                this.getWorkHoursService = new RestService("",`reports/account/${model.datas.accountId}/workHours/this_months`)
+                // this.getWorkHoursService = new RestService("",`reports/account/${model.datas.accountId}/workHours/this_months`)
+                
                 this.getChartDataService = new RestService("core",`reports/account/${model.datas.accountId}/data/this_months`);
+
                 //pengambilan data setiap 6 bulan
                 // this.getChartDataService = new RestService("core",`reports/account/${model.datas.accountId}/${new Date()}/data/sixmonths`);
+
                 this.chartData = await this.getChartDataService.get();
-                this.workHours = await this.getWorkHoursService.get();
+
+                // this.workHours = await this.getWorkHoursService.get();
 
                 this.resetLineData();
                 
@@ -245,7 +249,7 @@ export class assignments {
                     pointStrokeColor: "#fff",
                     pointHighlightFill: "#fff",
                     pointHighlightStroke: "rgba(151,187,205,1)",
-                    data: this.workHours.value.duration
+                    data: this.chartData.value.elapsed
                 },
                 {
                     label: "Jumlah Tugas",
