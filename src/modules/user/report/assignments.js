@@ -27,11 +27,17 @@ export class assignments {
     @bindable countElapsedByDate;
     @bindable efficiencyByDateCount;
     @bindable searchFlag;
+    @bindable month;
+    
 
-    // @bindable({ defaultBindingMode: bindingMode.twoWay }) dropDownvalue;
-        
     constructor() {
-        
+
+        var monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni",
+                "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+        var today = (new Date()).getMonth();
+
+        this.month=monthNames[today];
+
         this.SimpleLineData = {};
         this.accountId;
         this.startDate;
@@ -86,13 +92,18 @@ export class assignments {
                 this.closedAssignmentsService = new RestService("core", `reports/account/${model.datas.accountId}/assignments/open/count`)
                 this.countOpen = await this.closedAssignmentsService.get();
 
-                this.getChartDataService = new RestService("core",`reports/account/${model.datas.accountId}/${new Date()}/data/sixmonths`);
+                //pengambilan data setiap bulan
+                // this.getWorkHoursService = new RestService("",`reports/account/${model.datas.accountId}/workHours/this_months`)
+
+                this.getChartDataService = new RestService("core",`reports/account/${model.datas.accountId}/data/this_months`);
+
+                //pengambilan data setiap 6 bulan
+                // this.getChartDataService = new RestService("core",`reports/account/${model.datas.accountId}/${new Date()}/data/sixmonths`);
+
                 this.chartData = await this.getChartDataService.get();
 
-                this.resetLineData();
-                
-                // this.projectService = new RestService("core",`reports/account/${model.datas.accountId}/project`)
-                // this.projectData = await this.projectService.get();        
+                // this.workHours = await this.getWorkHoursService.get();
+                this.resetLineData();    
                 }  
     }
 
@@ -133,6 +144,12 @@ export class assignments {
         {
             field: "date", 
             title: "Tanggal Ditugaskan",
+            formatter: function (value, row, index) {
+            return value ? moment(value).format("DD-MMM-YYYY") : "-";}
+        },
+        {
+            field: "closedDate", 
+            title: "Tanggal Diselesaikan",
             formatter: function (value, row, index) {
             return value ? moment(value).format("DD-MMM-YYYY") : "-";}
         },
@@ -202,19 +219,18 @@ export class assignments {
 
         this.searchFlag = 0;
     }
-        
-    resetLineData(months) {
-        if(this.chartData){months=this.chartData.months}
-        console.log(this.chartData.value.budget)
-        console.log(this.chartData.value.elapsed)
-        
+
+    resetLineData(horizontal) {
+        if(this.chartData){
+            horizontal=this.chartData.horizontal;
+        }        
         this.SimpleLineData = {
-            labels: months,
+            labels: horizontal,
             datasets: [
                 {
                     label: "Alokasi Waktu",
-                    backgroundColor: "rgba(220,220,220,0.2)",
-                    borderColor: "rgba(220,220,220,1)",
+                    backgroundColor: "rgba(220,220,220,1)",
+                    borderColor: "rgba(220,220,220,0.5)",
                     pointColor: "rgba(220,220,220,1)",
                     pointStrokeColor: "#fff",
                     pointHighlightFill: "#fff",
@@ -223,8 +239,8 @@ export class assignments {
                 },
                 {
                     label: "Penggunaan Waktu",
-                    backgroundColor: "rgba(151,187,205,0.2)",
-                    borderColor: "rgba(151,187,205,1)",
+                    backgroundColor: "rgba(151,187,205,1)",
+                    borderColor: "rgba(151,187,205,0.5)",
                     pointColor: "rgba(151,187,205,1)",
                     pointStrokeColor: "#fff",
                     pointHighlightFill: "#fff",
@@ -233,6 +249,7 @@ export class assignments {
                 },
                 {
                     label: "Jumlah Tugas",
+                    backgroundColor: "rgba(255,160,122,1)",
                     borderColor: "rgba(255,160,122,1)",
                     pointColor: "rgba(255,160,122,1)",
                     pointStrokeColor: "#000",
@@ -240,15 +257,6 @@ export class assignments {
                     pointHighlightStroke: "rgba(255,160,122,1)",
                     data: this.chartData.totalAssignment
                 },
-                {
-                    label: "Efisiensi",
-                    borderColor: "rgba(0,0,255,1)",
-                    pointColor: "rgba(0,0,255,1)",
-                    pointStrokeColor: "#000",
-                    pointHighlightFill: "blue",
-                    pointHighlightStroke: "rgba(0,0,255,1)",
-                    data: this.chartData.value.efficiency
-                }
             ]
         };
     }

@@ -1,0 +1,6 @@
+<template>
+    <select value.bind="selectedBangunRuang">
+        <option value="">Choose...</option>
+        <option  repeat.for="item of kotaks" value.bind="item">${item}</option>
+    </select>
+</template>

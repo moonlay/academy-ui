@@ -6,6 +6,8 @@ export class DataForm {
   @bindable readOnly;
 
   bind(context) {
+    console.log("bind (context) from project");
+    console.log(context);
     this.context = context;
     this.data = this.context.data;
     this.error = this.context.error;

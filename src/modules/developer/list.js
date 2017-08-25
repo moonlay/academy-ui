@@ -1,4 +1,3 @@
-
 import { bindable, inject } from "aurelia-framework";
 import { Router } from 'aurelia-router';
 import { RestService } from "../../lib/rest-service";
@@ -15,16 +14,15 @@ export class List {
         this.account = new RestService("core", `accounts/${localStorage.userId}`);
         this.assignment = new RestService("core", `accounts/${localStorage.userId}/assignments/count`);
         var serviceTask = new RestService("core", "tasks/dueToDay");
-
         this.router = router;
         this.getDueToday(serviceTask);
         this.getInfo();
         this.getData();
         this.waktu = 0.0;
-
+        this.login;
     }
     getData() {
-        this.service.get({ filter: { include: 'task', where: { status: 'open' }, order: 'deadline ASC' } }).then(results => {
+        this.service.get({ filter: { include: 'task', where: { status: 'open' } ,order:'deadline ASC'} }).then(results => {
             this.data = results
             var persentasiService = [];
             for (var item of this.data) {
@@ -43,8 +41,14 @@ export class List {
         this.account.get().then(results => {
             this.nama = results;
         })
+        this.service.get({ filter: { include: 'task', where: { status: 'closed' } } }).then(results => {
+            this.dataClosed = results;
+            var getTasks;
+            for (var item of this.dataClosed) {
+                var tasksService = new RestService("core", `/assignments/`);
+            }
+        })
     }
-
     async getInfo() {
         var serviceAssignment = new RestService("core", "assignments");
         var serviceTask = new RestService("core", "tasks");
@@ -60,11 +64,9 @@ export class List {
                 this.serviceTaskError = err;
             })
     }
-
     __view(id) {
         this.router.navigateToRoute('view', { id: id });
     }
-
     start(item) {
         if (this.currentItem)
             this.currentItem.isStart = false;
@@ -73,7 +75,8 @@ export class List {
         item.isStop = true;
         this.currentItem = item;
         this.waktu = item.elapsed;
-      
+
+
         for (var i in this.data) {
             var isHas = false
             if (this.data[i].id == item.id) {
@@ -84,7 +87,6 @@ export class List {
                 break;
             }
         }
-
         var assignment =
             {
                 "elapsed": this.data[this.index].elapsed,
@@ -98,9 +100,10 @@ export class List {
                 "iterationId": this.data[this.index].iterationId,
                 "assignmentId": this.data[this.index].assignmentId,
                 "duration": this.data[this.index].elapsed,
-                "deadline": this.data[this.index].deadline,
+                "deadline": this.data[this.index].deadline
+
             };
-        this.data[this.index].waktu=0.0;
+        this.data[this.index].waktu = 0.0;
         this.interval2 = setInterval(() =>
             this.data[this.index].waktu = parseInt(this.data[this.index].waktu) + 1,
             1000);
@@ -117,8 +120,8 @@ export class List {
         setInterval(() =>
             this.service.put(this.data[this.index].id, this.data[this.index], `assignments/${this.data[this.index].id}`),
             1000);
-    };
 
+    };
     stop(item) {
         item.isStop = false;
         item.isStart = false;
@@ -127,7 +130,6 @@ export class List {
         this.data[this.index].status = 'closed';
         var assignment =
             {
-
                 "elapsed": this.data[this.index].elapsed,
                 "date": this.data[this.index].date,
                 "budget": this.data[this.index].budget,
@@ -142,7 +144,7 @@ export class List {
                 "deadline": this.data[this.index].deadline
 
             };
-            var timerRecord =
+        var timerRecord =
             {
                 "date": new Date(),
                 "name": this.data[this.index].task.name,
@@ -151,7 +153,7 @@ export class List {
                 "remark": this.data[this.index].task.remark,
                 "projectId": this.data[this.index].task.projectId,
                 "assignmentId": this.data[this.index].task.id,
-                "waktu": this.data[this.index].assignment.waktu
+                "waktu": this.data[this.index].waktu,
             }
 
         delete this.interval;
@@ -185,7 +187,7 @@ export class List {
                 "deadline": this.data[this.index].deadline
 
             };
-            var timerRecord =
+        var timerRecord =
             {
                 "date": new Date(),
                 "name": this.data[this.index].task.name,
@@ -194,8 +196,9 @@ export class List {
                 "remark": this.data[this.index].task.remark,
                 "projectId": this.data[this.index].task.projectId,
                 "assignmentId": this.data[this.index].task.id,
-                "waktu": this.data[this.index].assignment.waktu
+                "waktu": this.data[this.index].waktu,
             }
+
 
         delete this.interval;
         this.service.post(timerRecord, `assignments/${this.data[this.index].id}/timerecords`)

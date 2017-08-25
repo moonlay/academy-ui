@@ -1,0 +1,43 @@
+<template>
+    <require from="./widget/box"></require>
+    <require from="./widget/box-header" as="header"></require>
+    <!-- <require from="./widget/box-body"></require> -->
+    <require from="./widget/box-footer" as="footer"></require>
+    <require from="./widget/cst-button"></require>
+    <require from="./widget/modal-form"></require>
+
+    <div class="col-md-4 col-xs-12 col-sm-6" if.bind="datas" repeat.for="item of datas">
+        <box>
+
+            <!-- Box Header -->
+            <div slot="box-header">
+                <header deadline.bind="item.deadline" icon.bind="icon" title.bind="item.name">
+                </header>
+            </div>
+            <div if.bind="buttons" slot="box-header-toolbar">
+                <cst-button buttons.bind="buttons" data.bind="item"></cst-button>
+            </div>
+
+            <!-- Box Body -->
+            <div slot="box-body">
+
+                <div slot="content">
+                    <div class="progress-group">
+                        <span class="progress-text">Progress (${item.progress} %)</span>
+                        <span class="progress-number"><b>${item.completedBacklog}</b> / ${item.totalBacklog} Backlogs</span>
+
+                        <div class="progress sm active">
+                            <div class="${item.completedBacklog === item.totalBacklog ? progressComplete : progressPrimary}" style='width: ${item.progress}%'></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- box footer -->
+            <div slot="box-footer">
+                <footer title.bind = 'footerButton.title' id.bind="item.id" click-custom.bind= "footerButton.action"></footer>
+            </div>
+        </box>
+    </div>
+
+</template>

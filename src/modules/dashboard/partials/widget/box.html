@@ -1,0 +1,19 @@
+<template>
+    <div class="box box-solid">
+        <div class="box-header with-border">
+            <slot name="box-header"></slot>
+            <div class="box-tools">
+                <slot name="box-header-toolbar"></slot>
+            </div>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+            <slot name="box-body"></slot>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer no-padding">
+            <slot name="box-footer"></slot>
+        </div>
+        <!-- /.footer -->
+    </div>
+</template>

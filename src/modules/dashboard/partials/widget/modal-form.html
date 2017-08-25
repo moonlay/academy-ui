@@ -1,0 +1,28 @@
+<template>
+    <!-- Modal edit window -->
+    <div class="modal fade" tabindex="-1" role="dialog">
+        <!--<div>-->
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">${title}</h4>
+                </div>
+                <div class="modal-body">
+                    <slot name="content">
+                        
+                    </slot>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger pull-left" click.delegate="onDelete($event)" if.one-way="hasDelete" tabindex=99>Delete</button>
+                    <button type="button" class="btn btn-secondary" click.delegate="onCancel()">Cancel</button>
+                    <button type="button" class="btn btn-primary" click.delegate="onSave($event)">Save</button>
+                    <slot name="actions">
+
+                    </slot>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

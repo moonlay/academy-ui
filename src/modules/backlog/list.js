@@ -16,6 +16,11 @@ export class List {
     formatter: function (value, row, index) {
       return value ? moment(value).format("DD-MMM-YYYY") : "-";
     }
+  },{
+    field: "deadline", title: "Deadline",
+    formatter: function (value, row, index) {
+      return value ? moment(value).format("DD-MMM-YYYY") : "-";
+    }
   }, "remark"];
   contextMenu = ["Detail"];
 
