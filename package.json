@@ -68,9 +68,11 @@
     }
   },
   "dependencies": {
+    "admin-lte": "^2.3.11",
     "aurelia-api": "^3.1.1",
     "aurelia-authentication": "^3.2.0",
     "aurelia-bootstrapper-webpack": "^1.1.0",
+    "aurelia-datatable": "^0.8.1",
     "aurelia-dialog": "^1.0.0-beta.3.0.1",
     "aurelia-event-aggregator": "^1.0.0",
     "aurelia-fetch-client": "^1.0.1",
@@ -89,6 +91,7 @@
     "bluebird": "^3.4.6",
     "bootstrap": "^3.3.7",
     "bootstrap-table": "^1.11.2",
+    "chart.js": "^2.6.0",
     "font-awesome": "^4.7.0",
     "isomorphic-fetch": "^2.2.1",
     "jquery": "^3.1.1",

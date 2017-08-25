@@ -1,10 +1,10 @@
 // we want font-awesome to load as soon as possible to show the fa-spinner
 import '../styles/styles.css';
-import 'font-awesome/css/font-awesome.css';
-import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap';
+
 import appConfig from "./config/app-config";
 import { DOM } from 'aurelia-pal';
+
 
 // comment out if you don't want a Promise polyfill (remove also from webpack.common.js)
 import * as Bluebird from 'bluebird';

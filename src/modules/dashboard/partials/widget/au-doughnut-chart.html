@@ -1,0 +1,12 @@
+<template>
+    <div class="box-body" if.bind="configChart">
+        <div class="col-md-6 col-xs-6 col-sm-6 no-padding">
+            <div class="chart-responsive">
+                <canvas id="${configChart.id}Chart" height="150" width="150"></canvas>
+            </div>
+        </div>
+        <div class="col-md-6 col-xs-6 col-sm-6 no-padding">
+            <div id="${configChart.id}Legend"></div>
+        </div>
+    </div>
+</template>

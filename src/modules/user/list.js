@@ -3,6 +3,7 @@ import { Router } from 'aurelia-router';
 import { RestService } from "../../lib/rest-service";
 import createLoopbackFilterObject from "../../lib/loopback-filter-factory";
 import moment from "moment";
+import './simple.css';
 
 
 @inject(Router)
@@ -33,7 +34,8 @@ export class List {
         {
             field: "profile.gender", title: "gender"
         }];
-    contextMenu = ["Detail"];
+
+    contextMenu = ["Detail","Report"];
 
     loader = (info) => {
         var fields = this.columns.map(col => {
@@ -61,6 +63,11 @@ export class List {
         this.router.navigateToRoute('view', { id: id });
     }
 
+    __viewReport(id) {
+        this.router.navigateToRoute('report', { id: id });
+    }
+
+
     create() {
         this.router.navigateToRoute('create');
     }
@@ -72,6 +79,9 @@ export class List {
             case "Detail":
                 this.__view(data.id);
                 break;
+            case "Report":
+                this.__viewReport(data.id);
+                break;    
         }
     }
 }

@@ -12,6 +12,7 @@
                     loader.bind="accountLoader" key="id" text="username"></au-autocomplete>
 
                 <au-datepicker label="date" value.bind="data.date" error.bind="error.date" read-only.bind="readOnly"></au-datepicker>
+                <au-datepicker label="deadline" value.bind="data.deadline" error.bind="error.date" read-only.bind="readOnly"></au-datepicker>
                 <au-multiline label="remark" value.bind="data.remark" error.bind="error.remark" read-only.bind="readOnly"></au-multiline>
                 <au-dropdown label="status" value.bind="data.status" items.bind="assignmentStatusOptions" read-only.bind="readOnly"></au-dropdown>
             </form>

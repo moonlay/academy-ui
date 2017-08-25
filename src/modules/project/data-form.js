@@ -6,14 +6,16 @@ export class DataForm {
   @bindable readOnly;
 
   bind(context) {
+    console.log("bind (context) from project");
+    console.log(context);
     this.context = context;
     this.data = this.context.data;
     this.error = this.context.error;
 
     this.cancelCallback = this.context.cancelCallback;
     this.deleteCallback = this.context.deleteCallback;
-    this.editCallback = this.context.editCallback;
-    this.saveCallback = this.context.saveCallback;
+    this.editCallback   = this.context.editCallback;
+    this.saveCallback   = this.context.saveCallback;
   }
 
   @computedFrom("data.id")

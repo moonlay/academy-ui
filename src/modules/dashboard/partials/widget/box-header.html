@@ -1,0 +1,10 @@
+<template>
+    <div class="project-block">
+        <span class="project-icon"><i class="fa ${icon}"></i></span>
+        <span class="title">${title}</span>
+        <span if.bind="deadline" class="description">Deadline : ${convertDate}</span>
+    </div>
+    <div class="box-tools">
+        <slot name="box-header-toolbar"></slot>
+    </div>
+</template>

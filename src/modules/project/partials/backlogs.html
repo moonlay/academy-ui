@@ -1,15 +1,20 @@
 <template>
   <div class="row"> 
-    <div class="col-md-3">
+    <div class="col-md-12" >
+    <div class="col-md-6">
       <h2 class="page-header">Backlogs</h2>
-      <au-table view-model.ref="backlogTable" data.bind="backlogLoader" columns.bind="backlogColumns" sortable.bind="true" page-size="25"
-        context.bind="backlogContextMenu" context-click.delegate="__backlogContextMenuCallback($event)" row-click.delegate="__backlogRowClickCallback($event)">
+      <au-table view-model.ref="backlogTable" 
+      data.bind="backlogLoader" columns.bind="backlogColumns" 
+      sortable.bind="true" page-size="25"
+      context.bind="backlogContextMenu" 
+      context-click.delegate="__backlogContextMenuCallback($event)"
+      row-click.delegate="__backlogRowClickCallback($event)">
 
         <button slot="toolbar" class="btn btn-success" click.delegate="__backlogCreateCallback()">Create new Backlog</button>
       </au-table>
+      </div>
 
-    </div>
-    <div class="col-md-5">
+    <div class="col-md-6">
       <h2 class="page-header">Tasks</h2>
       <au-table 
         view-model.ref="taskTable" 
@@ -24,7 +29,7 @@
         <button slot="toolbar" class="btn btn-success" click.delegate="__taskCreateCallback()">Create new Task</button>
       </au-table>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-12">
       <h2 class="page-header">Assignments</h2>
       <au-table 
           view-model.ref="assignmentTable"
@@ -35,10 +40,12 @@
           context.bind="assignmentContextMenu" 
           context-click.delegate="__assignmentContextMenuCallback($event)" 
           row-click.delegate="__assignmentRowClickCallback($event)">
-
-          <button slot="toolbar" class="btn btn-success" click.delegate="__assignmentCreateCallback()">Create new Assignment</button>
-
+          <button slot="toolbar" class="btn btn-success" 
+          click.delegate="__assignmentCreateCallback()">Create new Assignment</button>
       </au-table>
     </div>
+
+    </div>
+    
   </div>
 </template>

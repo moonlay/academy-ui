@@ -1,9 +1,44 @@
 <template>
-  <require from="./nav-bar.html"></require>
-  
-  <nav-bar router.bind="router"></nav-bar>
+  <div class="wrapper">
+    <header class="main-header">
+      <require from="./nav-bar.html"></require>
+      <nav-bar router.bind="router"></nav-bar>
+    </header>
+    <div class="content-wrapper">
+      <div class="container">
+        <!-- Content Header (Page header) -->
+        <!-- <section class="content-header">
+          <h1>
+            Top Navigation
+            <small>Example 2.0</small>
+          </h1>
+          <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="#">Layout</a></li>
+            <li class="active">Top Navigation</li>
+          </ol>
+        </section> -->
 
-  <div class="page-host">
-    <router-view></router-view>
+        <!-- <div class="page-host"> -->
+        <!-- </div> -->
+        <section class="content">
+          <router-view></router-view>
+        </section>
+        <!-- content -->
+      </div>
+      <!-- container -->
+    </div>
+    <!-- content-wrapper -->
+     <!-- <footer class="main-footer">  -->
+        <!-- <div class="container">   -->
+         <!-- <div class="pull-right hidden-xs">  -->
+           <!-- <b>TimeSheet</b> V.1.0  -->
+         <!-- </div>  -->
+         <!-- <strong>&copy; 2017 <a href="http://moonlay.com/">Moonlay Technology</a>.</strong> All rights reserved.  -->
+       <!-- </div>  -->
+       <!-- container  -->
+     <!-- </footer>  -->
   </div>
+  <!-- wrapper -->
+
 </template>

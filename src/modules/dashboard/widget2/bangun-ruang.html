@@ -1,0 +1,10 @@
+<template>
+    <p>Bangun : ${bangun}</p>
+    <require from="./input-bangun"></require>
+    <require from="./pilihan"></require>
+    <input-bangun bangun.bind="bangun"></input-bangun>
+    <pilihan selected-bangun-ruang.two-way="answer"></pilihan>
+    <hr />
+    <compose if.bind="answer" view="./${answer}.html" model.bind="bangun"></compose>
+    <hr />
+</template>

@@ -1,20 +1,17 @@
-import { bindable, inject } from "aurelia-framework";
-import { RestService } from "../../lib/rest-service";
-import { Router } from 'aurelia-router';
-import parseLoopbackError from "../../lib/loopback-error-parser";
-import createLoopbackFilterObject from "../../lib/loopback-filter-factory";
-import moment from "moment";
-
+import './style/style.css';
 export class Index {
-
-    async activate() {
-
-    }
-
-    configureRouter(config, router) {
-        config.map([
-            { route: '/', name: 'manage', nav: false, viewPorts: { backlogs: { moduleId: "./partials/backlogs" }, iterations: { moduleId: "./partials/iterations" } } }
-        ]);
+    configureRouter(config, router){
         this.router = router;
+
+        config.map([
+            { route: '/', name: 'list', moduleId: './list', nav: true, title: 'Dashboard List' },
+            { route: '/view/:id', name: 'view', moduleId: './view', title: 'View Project' },
+            { route: '/create', name: 'create', moduleId: './create', title: 'Create Project' },
+            { route: '/test', name: 'test', moduleId: './test/index', title: 'Custom Component'},
+            { route: '/widget2', name: 'widget2', moduleId: './widget2/index', title: 'Custom Widget'},
+            { route: '/partials2', name: 'Partials2', moduleId: './partials2/index', title: 'Custom Widget'}
+        ])
+        
     }
+
 }

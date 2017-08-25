@@ -9,14 +9,34 @@ export class List {
   constructor(router) {
     this.service = new RestService("core", "assignments");
     this.router = router;
+    this.getData();
   }
 
-  columns = ["code", "name", {
-    field: "date", title: "date",
-    formatter: function (value, row, index) {
-      return value ? moment(value).format("DD-MMM-YYYY") : "-";
-    }
-  }, "remark"];
+  async bind(context) {
+    this.context = context;
+    this.data = this.context.data;
+
+  }
+
+getData() {
+    this.service.get().then(results => {
+      this.data = results;
+      var elapsedService = [];
+      for (var item of this.data) {
+        var e = new RestService("core", `assignments/${item.id}/elapsed`);
+        elapsedService.push(a.get());
+      }
+      Promise.all(elapsedService).then(result => {
+        for (var index in this.data) {
+          console.log("result");
+          console.log(result[index].Elapsed);
+          this.data[index].elapsed = result[index].Elapsed;
+
+        }
+        console.log(this.data);
+      })
+    })
+  }
   contextMenu = ["Detail"];
 
   loader = (info) => {

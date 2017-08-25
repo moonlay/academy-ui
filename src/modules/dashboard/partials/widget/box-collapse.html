@@ -1,0 +1,26 @@
+<template>
+    <div class="panel box box-primary">
+        <div class="progress-group">
+            <div class="box-header with-border">
+                <a data-toggle="collapse" data-parent="#accordion" href="#${idCollapse}">
+                    <slot name="box-header"></slot>
+                    <div class="box-tools">
+                        <slot name="box-header-toolbar"></slot>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div id="${idCollapse}" class="panel-collapse collapse">
+            <!-- /.box-header -->
+            
+            <div class="box-body">
+                <slot name="box-body"></slot>
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer no-padding">
+                <slot name="box-footer"></slot>
+            </div>
+            <!-- /.footer -->
+        </div>
+    </div>
+</template>
