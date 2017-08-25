@@ -14,17 +14,8 @@ export class List {
     // this.data = await this.load();
   }
 
-  columns = [
-    "code",
-    "name",
-    {
-      field: "deadline", title: "Deadline",
-      formatter: function (value, row, index) {
-        return value ? moment(value).format("DD-MMM-YYYY") : "-";
-      }
-    }
-  ];
-  contextMenu = ["Detail", "Manage"];
+  columns = ["code", "name"];
+  contextMenu = ["Detail", "Manage","Test"];
 
   loader = (info) => {
     var fields = this.columns.map(col => {
@@ -34,22 +25,13 @@ export class List {
         return col.field;
     })
 
-    console.log("info");
-    console.log(info);
-    console.log("fields");
-    console.log(fields);
     var loopbackFilter = createLoopbackFilterObject(info, fields)
-    console.log("loopbackFilter");
-    console.log(loopbackFilter);
+    
     return Promise
       .all([this.service.count(loopbackFilter.filter), this.service.list(loopbackFilter)])
       .then(results => {
         var count = results[0].count;
         var data = results[1];
-        console.log("count");
-        console.log(count);
-        console.log("data");
-        console.log(data);
         return {
           total: count,
           data: data

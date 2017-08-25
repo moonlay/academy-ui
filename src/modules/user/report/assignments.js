@@ -1,78 +1,110 @@
-import { bindable, inject } from "aurelia-framework";
+import { bindable,bindingMode, inject } from "aurelia-framework";
 import { RestService } from "../../../lib/rest-service";
 import { Router } from 'aurelia-router';
 import { Dialog } from '../../../au-components/dialog/dialog';
+import chart from './chart';
 import parseLoopbackError from "../../../lib/loopback-error-parser";
 import createLoopbackFilterObject from "../../../lib/loopback-filter-factory";
 import moment from "moment";
 
-
 export class assignments {
 
     @bindable assignmentsData;
-    @bindable assignmentEfficiency;
-    @bindable totalWorkTime;
-    @bindable totalBudget;
+    @bindable efficiencyCount;   
     @bindable startDate;
     @bindable endDate;
     @bindable closedElapsed;
     @bindable closedBudget;
     @bindable efficiencyData;
-
     @bindable countAssignments;
-    @bindable countExceedDeadline;
-    @bindable exceededElapsed;
+    @bindable countExceeded;
     @bindable totalProjects;
-  
-    constructor() {
-        this.accountId;
-        this.data=[];
+    @bindable totalElapsed;
+    @bindable totalBudget;
+    @bindable countClosedAssignmentsByDate;
+    @bindable countOpenAssignmentsByDate;
+    @bindable countBudgetByDate;
+    @bindable countElapsedByDate;
+    @bindable efficiencyByDateCount;
+    @bindable searchFlag;
+    @bindable month;
+    
 
+    constructor() {
+
+        var monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni",
+                "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+        var today = (new Date()).getMonth();
+
+        this.month=monthNames[today];
+
+        this.SimpleLineData = {};
+        this.accountId;
         this.startDate;
         this.endDate;
-
         this.totalWorkTime;
         this.totalBudget;
         this.totalProjects;
-
         this.closedElapsed;
         this.closedBudget;
-
         this.countAssignments = 0;
         this.countExceedDeadline = 0;
         this.exceededElapsed = 0;
-
         this.searchFlag = 0;
+        this.countExceeded;
+        this.countAssignmentsbyDate = 0;
+        this.countClosedAssignmentsByDate = 0;
+        this.countOpenAssignmentsByDate = 0;
+        this.countBudgetByDate = 0;
+        this.countElapsedByDate = 0;
+        this.efficiencyByDateCount = 0;
     }
 
     async activate(model) {
-        this.data = model.datas;
             if(model.datas==null){
             }
-            else{
-            this.accountId = model.datas.accountId;
-            this.assignmentService = new RestService("core", `accounts/${model.datas.accountId}/assignments`); 
-            this.assignmentsData = await this.assignmentService.get({filter: { include: "task", order:'date DESC'}});
+            else
+                {
+                this.accountId = model.datas.accountId;
+                this.assignmentService = new RestService("core", `accounts/${model.datas.accountId}/assignments`); 
+                this.assignmentsData = await this.assignmentService.get({filter: { include: "task", order:'date DESC'}});
+                this.countAssignmentsService = new RestService("core", `reports/account/${model.datas.accountId}/assignments/count`);
+                // this.countAssignments = await this.countAssignmentsService.get();
 
-            this.countAssignmentsService = new RestService("core", `reports/account/${model.datas.accountId}/assignments/count`);
-            this.countAssignments = await this.countAssignmentsService.get();
+                this.countTotalElapsed = new RestService("core",`reports/account/${model.datas.accountId}/assignments/elapsed`)
+                this.totalElapsed = await this.countTotalElapsed.get();
 
-            this.countProject = new RestService("core", `reports/account/${model.datas.accountId}/project/count`)
-            this.totalProjects = await this.countProject.get();
+                this.countTotalBudget = new RestService("core",`reports/account/${model.datas.accountId}/assignments/budget`)
+                this.totalBudget = await this.countTotalBudget.get();
 
-            this.projectService = new RestService("core",`reports/account/${model.datas.accountId}/project`)
-            this.projectData = await this.projectService.get();
+                this.countProject = new RestService("core", `reports/account/${model.datas.accountId}/project/count`)
+                this.totalProjects = await this.countProject.get();
 
-            this.countWorkTimeService = new RestService("core",`reports/account/${model.datas.accountId}/assignments/elapsed`)
-            this.totalWorkTime = await this.countWorkTimeService.get();
+                this.efficiencyService = new RestService("core",`reports/account/${model.datas.accountId}/assignments/efficiency`)
+                this.efficiencyCount = await this.efficiencyService.get();
 
-            this.countBudgetTime = new RestService("core",`reports/account/${model.datas.accountId}/assignments/budget`)
-            this.totalBudget = await this.countBudgetTime.get();
+                this.countExceededService = new RestService("core",`reports/account/${model.datas.accountId}/assignments/exceeded/count`)
+                this.countExceeded = await this.countExceededService.get();
 
-            this.efficiencyService = new RestService("core",`reports/account/${model.datas.accountId}/assignments/efficiency`)
-            this.efficiencyData = await this.efficiencyService.get();
+                this.closedAssignmentsService = new RestService("core", `reports/account/${model.datas.accountId}/assignments/closed/count`)
+                this.countClosed = await this.closedAssignmentsService.get();
 
-        }  
+                this.closedAssignmentsService = new RestService("core", `reports/account/${model.datas.accountId}/assignments/open/count`)
+                this.countOpen = await this.closedAssignmentsService.get();
+
+                //pengambilan data setiap bulan
+                // this.getWorkHoursService = new RestService("",`reports/account/${model.datas.accountId}/workHours/this_months`)
+
+                this.getChartDataService = new RestService("core",`reports/account/${model.datas.accountId}/data/this_months`);
+
+                //pengambilan data setiap 6 bulan
+                // this.getChartDataService = new RestService("core",`reports/account/${model.datas.accountId}/${new Date()}/data/sixmonths`);
+
+                this.chartData = await this.getChartDataService.get();
+
+                // this.workHours = await this.getWorkHoursService.get();
+                this.resetLineData();    
+                }  
     }
 
     assignmentsColumns = [
@@ -82,15 +114,19 @@ export class assignments {
         },
         {
             field: "task.name",
-            title: "Task Name"
+            title: "Nama Tugas"
+        },
+        {
+            field: "task.project.name",
+            title: "Projek"
         },
         {
             field: "task.type",
-            title: "Task Type"
+            title: "Tipe"
         },  
         {
             field: "budget",
-            title: "Budget Time",
+            title: "Waktu yang Diberikan",
             formatter: function (value, row, index) {
             var decimalTime = value * 60 * 60;
             var n = new Date(0,0);
@@ -99,7 +135,7 @@ export class assignments {
         },
         {
             field: "elapsed",
-            title: "Elapsed",
+            title: "Waktu yang Terpakai",
             formatter: function (value, row, index) {
             var n = new Date(0,0);
             n.setSeconds(+value)
@@ -107,13 +143,19 @@ export class assignments {
         },
         {
             field: "date", 
-            title: "Date Assigned",
+            title: "Tanggal Ditugaskan",
+            formatter: function (value, row, index) {
+            return value ? moment(value).format("DD-MMM-YYYY") : "-";}
+        },
+        {
+            field: "closedDate", 
+            title: "Tanggal Diselesaikan",
             formatter: function (value, row, index) {
             return value ? moment(value).format("DD-MMM-YYYY") : "-";}
         },
         {
             field: "deadline", 
-            title: "Deadline Date",
+            title: "Deadline",
             formatter: function (value, row, index) {
             return value ? moment(value).format("DD-MMM-YYYY") : "-";}
         },
@@ -123,128 +165,102 @@ export class assignments {
         }
     ];
 
-  __dateFormatter = function (value, row, index) {
-    return value ? moment(value).format("DD-MMM-YYYY") : "-";
-  };
+    assignmentLoader = (info) => {
+        var fields = this.assignmentsColumns.map(col => {
+            if (typeof col === "string")
+            return col;
+            else if (typeof col === "object" && col.field)
+            return col.field;
+        })
+            var loopbackFilter = createLoopbackFilterObject(info, fields);
+            loopbackFilter.filter.include={relation:"task",scope:{include:"project"}};
+            loopbackFilter.filter.order ='date DESC';
 
-  assignmentLoader = (info) => {
-    if(!this.assignmentsData) {
-      return {
-        data: []
-      }
-    }
-    else {
-      var fields = this.assignmentsColumns.map(col => {
-        if (typeof col === "string")
-          return col;
-        else if (typeof col === "object" && col.field)
-          return col.field;
-      })
-    var loopbackFilter = createLoopbackFilterObject(info, fields)
-    if(this.searchFlag == 0){
-        loopbackFilter.filter.include='task';
-        loopbackFilter.filter.order = 'DESC';
-    
-      return Promise
-        .all([this.assignmentService.count(loopbackFilter.filter),this.assignmentService.list(loopbackFilter)])
-        .then(results => {
-          var data = results[1];
-          this.countAssignments = results[0].count;
-          var count = this.countAssignments;
-          this.countClosedAssignmentsDetails(results[1])
-          return {
-            total: count,
-            data: data
-          };
-        });
-      }else{
-        return Promise
-        .all([null,this.assignmentService.list(loopbackFilter)])
-        .then(results => {
-          var data = results[1];
-          this.countAssignments = results[0];
-          var count = this.countAssignments;
-          this.countClosedAssignmentsDetails(results[1])
-          return {
-            total: count,
-            data: data
-          };
-        });
-      }
-    }
-  };
-
-  //projek
-  projectColumns = ["code", "name"];
-   projectLoader = (info) => {
-    var fields = this.projectColumns.map(col => {
-      if (typeof col === "string")
-        return col;
-      else if (typeof col === "object" && col.field)
-        return col.field;
-    })
-
-    var loopbackFilter = createLoopbackFilterObject(info, fields)
-    return Promise
-      .all([this.projectService.count(loopbackFilter.filter), this.projectService.list(loopbackFilter)])
-      .then(results => {
-        var count = results[0].count;
-        var data = results[1];
-        return {
-          total: count,
-          data: data
-        };
-      });
-  };
+            return Promise
+                .all([this.assignmentService.count(loopbackFilter.filter),this.assignmentService.count(),this.assignmentService.list(loopbackFilter)])
+                .then(results => {
+                var data = results[2];
+                if(this.searchFlag==0){
+                    this.countAssignments = results[0].count;
+                    var count = this.countAssignments;
+                }else{
+                    var count = results[1];
+                    this.countAssignmentsbyDate = count;
+                }
+                return {
+                    total: count,
+                    data: data
+                };
+            });
+    };
 
 
     async getAssignmentByDate(){
-        this.searchFlag=1;
-        this.assignmentService = new RestService("core", `reports/account/${this.data.accountId}/${this.startDate}/to/${this.endDate}/assignments`);     
+        this.searchFlag = 1;
+        
+        this.assignmentService = new RestService("core", `reports/account/${this.accountId}/${this.startDate}/to/${this.endDate}/assignments`);     
         this.assignmentsData = await this.assignmentService.get();
-
         this.assignmentTable.refresh();
+
+        this.efficiencyByDateService = new RestService("core",`reports/account/${this.accountId}/${this.startDate}/to/${this.endDate}/efficiency`);
+        this.efficiencyByDateCount = await this.efficiencyByDateService.get();
+
+        this.countClosedAssignmentsService = new RestService("core", `reports/account/${this.accountId}/${this.startDate}/to/${this.endDate}/assignments/closed/count`);
+        this.countClosedAssignmentsByDate = await this.countClosedAssignmentsService.get();
+
+        this.countOpenAssignmentsService = new RestService("core", `reports/account/${this.accountId}/${this.startDate}/to/${this.endDate}/assignments/open/count`);
+        this.countOpenAssignmentsByDate = await this.countOpenAssignmentsService.get();
+
+        this.countBudgetByDateService = new RestService("core", `reports/account/${this.accountId}/${this.startDate}/to/${this.endDate}/assignments/budget`);
+        this.countBudgetByDate = await this.countBudgetByDateService.get();
+
+        this.countElapsedByDateService = new RestService("core", `reports/account/${this.accountId}/${this.startDate}/to/${this.endDate}/assignments/elapsed`);
+        this.countElapsedByDate = await this.countElapsedByDateService.get();
+
+        this.searchFlag = 0;
     }
 
-    countClosedAssignmentsDetails(array){
-        if(array!=null)
-        {
-            this.closedElapsed = array.reduce(function(last, d) {
-                return d.elapsed + last;
-            }, 0);
-            this.closedBudget = array.reduce(function(last, d) {
-                return d.budget + last;
-            }, 0);
-            this.closedElapsed = (this.closedElapsed/3600).toFixed(5);         
-            this.exceededElapsed =(((this.closedElapsed - (this.closedBudget))/(this.closedBudget))*100).toFixed(2);      
-        }    
+    resetLineData(horizontal) {
+        if(this.chartData){
+            horizontal=this.chartData.horizontal;
+        }        
+        this.SimpleLineData = {
+            labels: horizontal,
+            datasets: [
+                {
+                    label: "Alokasi Waktu",
+                    backgroundColor: "rgba(220,220,220,1)",
+                    borderColor: "rgba(220,220,220,0.5)",
+                    pointColor: "rgba(220,220,220,1)",
+                    pointStrokeColor: "#fff",
+                    pointHighlightFill: "#fff",
+                    pointHighlightStroke: "rgba(220,220,220,1)",
+                    data: this.chartData.value.budget
+                },
+                {
+                    label: "Penggunaan Waktu",
+                    backgroundColor: "rgba(151,187,205,1)",
+                    borderColor: "rgba(151,187,205,0.5)",
+                    pointColor: "rgba(151,187,205,1)",
+                    pointStrokeColor: "#fff",
+                    pointHighlightFill: "#fff",
+                    pointHighlightStroke: "rgba(151,187,205,1)",
+                    data: this.chartData.value.elapsed
+                },
+                {
+                    label: "Jumlah Tugas",
+                    backgroundColor: "rgba(255,160,122,1)",
+                    borderColor: "rgba(255,160,122,1)",
+                    pointColor: "rgba(255,160,122,1)",
+                    pointStrokeColor: "#000",
+                    pointHighlightFill: "#000",
+                    pointHighlightStroke: "rgba(255,160,122,1)",
+                    data: this.chartData.totalAssignment
+                },
+            ]
+        };
     }
 
-    contextMenu = ["Detail"];
-  
-    __contextMenuCallback(event) {
-        var arg = event.detail;
-        var data = arg.data;
-        switch (arg.name) {
-            case "Detail":
-                this.searchFlag = 1;
-                this.__view(data.id);
-                break;    
-        }
-    }
 
-    __view(projectId) {
-        this.getAssignmentPerProject(projectId);
-    }
-
-    async getAssignmentPerProject(projectId){
-        this.assignmentService = new RestService("core", `reports/account/${this.accountId}/${projectId}/assignments`);     
-        this.assignmentsData = await this.assignmentService.get();
-
-        this.efficiencyService = new RestService("core", `reports/account/${this.accountId}/${projectId}/efficiency`);     
-        this.efficiencyData = await this.efficiencyService.get();
-
-        this.assignmentTable.refresh(); 
-    }  
 
 }

@@ -4,6 +4,7 @@ import 'bootstrap';
 
 import appConfig from "./config/app-config";
 import { DOM } from 'aurelia-pal';
+// import Chart from 'chart.js';
 
 
 // comment out if you don't want a Promise polyfill (remove also from webpack.common.js)
@@ -38,8 +39,10 @@ export async function configure(aurelia) {
       }
       config.settings.enableEscClose = true;
     })
-    .developmentLogging();
-
+    .developmentLogging()
+    .plugin('aurelia-datatable')
+    .plugin('aurelia-chart');
+    
   // Uncomment the line below to enable animation.
   // aurelia.use.plugin('aurelia-animator-css');
   // if the css animator is enabled, add swap-order="after" to all router-view elements
