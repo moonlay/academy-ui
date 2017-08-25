@@ -62,22 +62,6 @@ export class List {
     };
 
 
-
-
-
-
-
-
 }
 
-    // var data = {
-    //     title: item.name,
-    //     deadline: item.deadline ? moment(item.deadline).format("DD-MMM-YYYY") : '-',
-    //     configChart: {
-    //         id: item.id,
-    //         labels: ['Completed', 'Planning', 'Overdue'],
-    //         backgroundColor: ['rgb(39, 182, 186)', 'rgb(255, 148, 29)', 'rgb(233, 94, 81)'],
-    //         data: [item.completedBacklog, item.planningBacklog, item.overDueBacklog],
-    //         title: "Backlogs"
-    //     }
-    // };
+

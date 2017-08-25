@@ -7,7 +7,12 @@ export class AuDoughnutChart {
 
     @bindable configChart ;
     activate(model) {
-        if (model) this.configChart = model;
+        console.log("model");
+        console.log(model);
+        if (model) {
+            this.configChart = model;
+            this.attached();
+        }
     }
 
     attached() {
