@@ -57,13 +57,14 @@
                                 
                                  <h3 if.bind="!efficiencyCount" class="fa fa-circle-o-notch fa-spin fa-2x"></h3> 
                                 <h3 if.bind="efficiencyCount">${efficiencyCount}<sup style="font-size: 20px"> %</sup></h3>
-                                <p>Efisiensi penggunaan waktu.</p>
+                                <p>Efisiensi pengerjaan tugas yang telah selesai.</p>
                             </div>
                             <div class="icon">
                                 <i class="fa fa-balance-scale"></i>
                             </div>
                                 <!-- <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a> -->
                         </div>
+                            
                     </div>
                     <div class="col-sm-3">                        
                         <div class="small-box bg-red">
@@ -81,14 +82,17 @@
                 </div>
                 <hr>
                 <div class="row">
-                    <div class="col-sm-12">
-                        <div class="col-sm-12">
-                            <fieldset>
-                                <legend>Grafik penggunaan Waktu dan Efisiensi 
-                                </legend>
-                                    <canvas height="50" id="line-chart" chart="type: line; should-update: true; data.bind: SimpleLineData"></canvas>
-                            </fieldset>
-                        </div> 
+                     <div class="col-sm-12">
+                        <fieldset>
+                            <legend>Grafik penggunaan Waktu dalam bulan ${month}
+                            </legend>
+                            <canvas height="50" id="bar-chart" chart="type: bar; should-update: true; data.bind: SimpleLineData"></canvas>
+                        </fieldset>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-sm-12"> 
                         <div class="col-sm-6">
                             <table>
                                 <tbody>
